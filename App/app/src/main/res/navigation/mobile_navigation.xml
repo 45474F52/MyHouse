@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.aes.myhome.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.aes.myhome.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings" />
+
+    <action
+        android:id="@+id/action_open_settings"
+        app:destination="@id/nav_settings" />
+
+<!--    Food-->
+
+    <fragment
+        android:id="@+id/nav_food_shopping"
+        android:name="com.aes.myhome.ui.food.shopping.ShoppingFragment"
+        android:label="@string/menu_food_shopping"
+        tools:layout="@layout/fragment_shopping" />
+
+    <fragment
+        android:id="@+id/nav_food_menu"
+        android:name="com.aes.myhome.ui.food.menu.MenuFragment"
+        android:label="@string/menu_food_menu"
+        tools:layout="@layout/fragment_menu" />
+
+    <fragment
+        android:id="@+id/nav_food_recipes"
+        android:name="com.aes.myhome.ui.food.recipes.RecipesFragment"
+        android:label="@string/menu_food_recipes"
+        tools:layout="@layout/fragment_recipes">
+
+        <action
+            android:id="@+id/nav_food_recipes_navToCreation"
+            app:destination="@id/nav_food_recipes_creation"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <action
+            android:id="@+id/nav_food_recipes_navToShowing"
+            app:destination="@id/nav_food_recipes_showing"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_food_recipes_creation"
+        android:name="com.aes.myhome.ui.food.recipes.creation.CreateRecipeFragment"
+        android:label="@string/menu_food_recipes_creation"
+        tools:layout="@layout/fragment_create_recipe">
+
+        <action
+            android:id="@+id/nav_food_recipes_navToRecipes"
+            app:destination="@+id/nav_food_recipes"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_food_recipes_showing"
+        android:name="com.aes.myhome.ui.food.recipes.showing.ShowRecipeFragment"
+        tools:layout="@layout/fragment_show_recipe" />
+
+    <fragment
+        android:id="@+id/nav_food_diet"
+        android:name="com.aes.myhome.ui.food.diet.DietFragment"
+        android:label="@string/menu_food_diet"
+        tools:layout="@layout/fragment_diet" />
+
+<!--    Tasks-->
+
+    <fragment
+        android:id="@+id/nav_tasks_schedule"
+        android:name="com.aes.myhome.ui.tasks.schedule.ScheduleFragment"
+        android:label="@string/menu_tasks_schedule"
+        tools:layout="@layout/fragment_schedule" />
+
+    <fragment
+        android:id="@+id/nav_tasks_cases"
+        android:name="com.aes.myhome.ui.tasks.cases.CasesFragment"
+        android:label="@string/menu_tasks_cases"
+        tools:layout="@layout/fragment_cases" />
+
+    <fragment
+        android:id="@+id/nav_tasks_works"
+        android:name="com.aes.myhome.ui.tasks.works.WorksFragment"
+        android:label="@string/menu_tasks_works"
+        tools:layout="@layout/fragment_works" />
+
+<!--    Other-->
+
+    <fragment
+        android:id="@+id/nav_other_budget"
+        android:name="com.aes.myhome.ui.other.budget.BudgetFragment"
+        android:label="@string/menu_other_budget"
+        tools:layout="@layout/fragment_budget" />
+
+    <fragment
+        android:id="@+id/nav_other_closet"
+        android:name="com.aes.myhome.ui.other.closet.ClosetFragment"
+        android:label="@string/menu_other_closet"
+        tools:layout="@layout/fragment_closet" />
+
+    <fragment
+        android:id="@+id/nav_other_fun"
+        android:name="com.aes.myhome.ui.other.fun.FunFragment"
+        android:label="@string/menu_other_fun"
+        tools:layout="@layout/fragment_fun" />
+
+</navigation>

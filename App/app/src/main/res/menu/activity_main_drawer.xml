@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_home" />
+
+        <item
+            android:id="@+id/nav_food"
+            android:title="@string/menu_food">
+
+            <menu>
+
+                <item
+                    android:id="@+id/nav_food_shopping"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="@string/menu_food_shopping" />
+
+                <item
+                    android:id="@+id/nav_food_menu"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="@string/menu_food_menu" />
+
+                <item
+                    android:id="@+id/nav_food_recipes"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="@string/menu_food_recipes" />
+
+                <item
+                    android:id="@+id/nav_food_diet"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="@string/menu_food_diet" />
+
+            </menu>
+        </item>
+
+        <item
+            android:id="@+id/nav_tasks"
+            android:title="@string/menu_tasks">
+
+            <menu>
+
+                <item
+                    android:id="@+id/nav_tasks_schedule"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="@string/menu_tasks_schedule" />
+
+                <item
+                    android:id="@+id/nav_tasks_cases"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="@string/menu_tasks_cases" />
+
+                <item
+                    android:id="@+id/nav_tasks_works"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="@string/menu_tasks_works" />
+
+            </menu>
+        </item>
+
+        <item
+            android:id="@+id/nav_other"
+            android:title="@string/menu_other">
+
+            <menu>
+
+                <item
+                    android:id="@+id/nav_other_budget"
+                    android:icon="@drawable/ic_menu_camera"
+                    android:title="@string/menu_other_budget" />
+
+                <item
+                    android:id="@+id/nav_other_closet"
+                    android:icon="@drawable/ic_menu_camera"
+                    android:title="@string/menu_other_closet" />
+
+                <item
+                    android:id="@+id/nav_other_fun"
+                    android:icon="@drawable/ic_menu_camera"
+                    android:title="@string/menu_other_fun" />
+
+            </menu>
+        </item>
+    </group>
+</menu>

@@ -1,0 +1,86 @@
+<resources>
+    <string name="app_name">Мой Дом</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">MyHome</string>
+    <string name="nav_header_subtitle">danchin276@mail.ru</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_help">Help</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+    <!-- Menu -->
+    <string name="menu_home">Home</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_food">Еда</string>
+    <string name="menu_tasks">Задачи</string>
+    <string name="menu_other">Другое</string>
+    <string name="menu_food_shopping">Покупки</string>
+    <string name="menu_food_menu">Меню</string>
+    <string name="menu_food_recipes">Рецепты</string>
+    <string name="menu_food_diet">Питание</string>
+    <string name="menu_tasks_schedule">Расписание</string>
+    <string name="menu_tasks_cases">Дела</string>
+    <string name="menu_tasks_works">Задания</string>
+    <string name="menu_other_budget">Бюджет</string>
+    <string name="menu_other_closet">Гардероб</string>
+    <string name="menu_other_fun">Развлечения</string>
+
+    <!-- Food Item -->
+    <string name="food_format_useByDate">до %1$s</string>
+    <string name="food_format_protein">На 100 г. — %1$.1f г. белка</string>
+    <string name="food_format_fat">На 100 г. — %1$.1f г. жиров</string>
+    <string name="food_format_carbs">На 100 г. — %1$.1f г. углеводов</string>
+    <string name="food_format_calories">%1$.1f ккал.</string>
+    <string name="food_format_quantity">Количество: %1$d</string>
+    <string name="food_format_date_edit">%1$d.%2$d.%3$d %4$d:%5$d</string>
+
+    <!-- Recipe Showing -->
+    <string name="recipe_format_time">%1$.1f мин.</string>
+    <string name="recipe_format_steps">%1$d/%2$d</string>
+
+    <!--    Auto extract    -->
+
+    <!-- Actions -->
+    <string name="action_close">Close</string>
+    <string name="action_save">Сохранить</string>
+    <string name="action_add">Добавить</string>
+    <string name="action_addToList">Добавить в список</string>
+    <string name="action_clear">Очистить</string>
+    <string name="action_finishShopping">Всё куплено!</string>
+    <string name="action_new_step">Новый шаг</string>
+    <!-- Hints -->
+    <string name="hint_item_name">Название:</string>
+    <string name="hint_select_useByDate">Выбрать срок годности</string>
+    <string name="hint_quantity">Количество:</string>
+    <string name="hint_enter_protein">Белка на 100 г.:</string>
+    <string name="hint_enter_fat">Жиров на 100 г.:</string>
+    <string name="hint_enter_carbs">Углеводов на 100 г.:</string>
+    <string name="hint_enter_calories">Калорий на 100 г.:</string>
+    <string name="hint_item_description">Дополнительно:</string>
+    <string name="hint_recipe_step_description">Описание шага…</string>
+    <!-- Content Description -->
+    <string name="cnt_descr_mark_recipe_step">Mark recipe step</string>
+    <string name="menu_food_recipes_creation">Создание рецепта</string>
+    <string name="cnt_descr_remove_recipe_step">Remove recipe step</string>
+    <string name="hint_cookingTime">Время готовки (в минутах):</string>
+    <string name="cnt_descr_recipe_preview_image">Recipe preview image</string>
+    <string name="action_load_image">Загрузить изображение</string>
+    <string name="action_cancel">Отменить</string>
+    <string name="action_add_recipe">Добавить рецепт</string>
+    <string name="hint_search_recipe">Поиск рецепта</string>
+</resources>
