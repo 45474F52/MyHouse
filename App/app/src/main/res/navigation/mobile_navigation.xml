@@ -10,7 +10,71 @@
         android:id="@+id/nav_home"
         android:name="com.aes.myhome.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_fast_nav_to_shopping"
+            app:destination="@id/nav_food_shopping"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_fast_nav_to_menu"
+            app:destination="@+id/nav_food_menu"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_fast_nav_to_recipes"
+            app:destination="@+id/nav_food_recipes"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_fast_nav_to_diet"
+            app:destination="@+id/nav_food_diet"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true" />
+
+
+        <action
+            android:id="@+id/action_fast_nav_to_schedule"
+            app:destination="@+id/nav_food_schedule"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_fast_nav_to_cases"
+            app:destination="@+id/nav_food_cases"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_fast_nav_to_works"
+            app:destination="@+id/nav_food_works"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true" />
+
+
+        <action
+            android:id="@+id/action_fast_nav_to_budget"
+            app:destination="@+id/nav_food_budget"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_fast_nav_to_closet"
+            app:destination="@+id/nav_food_closet"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_fast_nav_to_fun"
+            app:destination="@+id/nav_food_fun"
+            app:popUpTo="@id/nav_home"
+            app:popUpToInclusive="true" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/nav_settings"

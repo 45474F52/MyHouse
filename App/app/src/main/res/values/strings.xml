@@ -83,4 +83,5 @@
     <string name="action_cancel">Отменить</string>
     <string name="action_add_recipe">Добавить рецепт</string>
     <string name="hint_search_recipe">Поиск рецепта</string>
+    <string name="home_title">Выбирайте элементы для быстрой навигации</string>
 </resources>

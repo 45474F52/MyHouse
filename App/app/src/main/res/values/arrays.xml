@@ -9,4 +9,35 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+
+    <!-- Fast Views Choosing -->
+    <string-array name="fast_views_entries">
+        <item>@string/menu_food_shopping</item>
+        <item>@string/menu_food_menu</item>
+        <item>@string/menu_food_recipes</item>
+        <item>@string/menu_food_diet</item>
+
+        <item>@string/menu_tasks_schedule</item>
+        <item>@string/menu_tasks_cases</item>
+        <item>@string/menu_tasks_works</item>
+
+        <item>@string/menu_other_budget</item>
+        <item>@string/menu_other_closet</item>
+        <item>@string/menu_other_fun</item>
+    </string-array>
+
+    <array name="fast_views_values">
+        <item>@id/action_fast_nav_to_shopping</item>
+        <item>@id/action_fast_nav_to_menu</item>
+        <item>@id/action_fast_nav_to_recipes</item>
+        <item>@id/action_fast_nav_to_diet</item>
+
+        <item>@id/action_fast_nav_to_schedule</item>
+        <item>@id/action_fast_nav_to_cases</item>
+        <item>@id/action_fast_nav_to_works</item>
+
+        <item>@id/action_fast_nav_to_budget</item>
+        <item>@id/action_fast_nav_to_closet</item>
+        <item>@id/action_fast_nav_to_fun</item>
+    </array>
 </resources>

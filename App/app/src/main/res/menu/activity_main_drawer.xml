@@ -8,7 +8,7 @@
 
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/home"
             android:title="@string/menu_home" />
 
         <item
@@ -19,23 +19,27 @@
 
                 <item
                     android:id="@+id/nav_food_shopping"
-                    android:icon="@drawable/ic_menu_gallery"
-                    android:title="@string/menu_food_shopping" />
+                    android:icon="@drawable/shopping_bag_svgrepo_com"
+                    android:title="@string/menu_food_shopping"
+                    android:checkable="true" />
 
                 <item
                     android:id="@+id/nav_food_menu"
-                    android:icon="@drawable/ic_menu_gallery"
-                    android:title="@string/menu_food_menu" />
+                    android:icon="@drawable/menu_food_svgrepo_com"
+                    android:title="@string/menu_food_menu"
+                    android:checkable="true" />
 
                 <item
                     android:id="@+id/nav_food_recipes"
-                    android:icon="@drawable/ic_menu_gallery"
-                    android:title="@string/menu_food_recipes" />
+                    android:icon="@drawable/recipes_book_svgrepo_com"
+                    android:title="@string/menu_food_recipes"
+                    android:checkable="true" />
 
                 <item
                     android:id="@+id/nav_food_diet"
-                    android:icon="@drawable/ic_menu_gallery"
-                    android:title="@string/menu_food_diet" />
+                    android:icon="@drawable/diet_svgrepo_com"
+                    android:title="@string/menu_food_diet"
+                    android:checkable="true" />
 
             </menu>
         </item>
@@ -48,18 +52,21 @@
 
                 <item
                     android:id="@+id/nav_tasks_schedule"
-                    android:icon="@drawable/ic_menu_slideshow"
-                    android:title="@string/menu_tasks_schedule" />
+                    android:icon="@drawable/schedule"
+                    android:title="@string/menu_tasks_schedule"
+                    android:checkable="true" />
 
                 <item
                     android:id="@+id/nav_tasks_cases"
-                    android:icon="@drawable/ic_menu_slideshow"
-                    android:title="@string/menu_tasks_cases" />
+                    android:icon="@drawable/cases"
+                    android:title="@string/menu_tasks_cases"
+                    android:checkable="true" />
 
                 <item
                     android:id="@+id/nav_tasks_works"
-                    android:icon="@drawable/ic_menu_slideshow"
-                    android:title="@string/menu_tasks_works" />
+                    android:icon="@drawable/works"
+                    android:title="@string/menu_tasks_works"
+                    android:checkable="true" />
 
             </menu>
         </item>
@@ -72,18 +79,21 @@
 
                 <item
                     android:id="@+id/nav_other_budget"
-                    android:icon="@drawable/ic_menu_camera"
-                    android:title="@string/menu_other_budget" />
+                    android:icon="@drawable/budget"
+                    android:title="@string/menu_other_budget"
+                    android:checkable="true" />
 
                 <item
                     android:id="@+id/nav_other_closet"
-                    android:icon="@drawable/ic_menu_camera"
-                    android:title="@string/menu_other_closet" />
+                    android:icon="@drawable/closet"
+                    android:title="@string/menu_other_closet"
+                    android:checkable="true" />
 
                 <item
                     android:id="@+id/nav_other_fun"
-                    android:icon="@drawable/ic_menu_camera"
-                    android:title="@string/menu_other_fun" />
+                    android:icon="@drawable/fun"
+                    android:title="@string/menu_other_fun"
+                    android:checkable="true" />
 
             </menu>
         </item>

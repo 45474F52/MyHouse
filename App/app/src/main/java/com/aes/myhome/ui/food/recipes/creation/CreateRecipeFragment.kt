@@ -1,13 +1,12 @@
 package com.aes.myhome.ui.food.recipes.creation
 
 import android.net.Uri
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +17,6 @@ import com.aes.myhome.databinding.FragmentCreateRecipeBinding
 import com.aes.myhome.objects.RecipeStep
 import com.aes.myhome.storage.database.entities.Recipe
 import com.aes.myhome.storage.database.repositories.RecipeRepository
-import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -33,7 +31,6 @@ class CreateRecipeFragment : Fragment(), IItemClickListener, SaveRecipeDialog.IC
     private var _binding: FragmentCreateRecipeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var _viewModel: CreateRecipeViewModel
     private lateinit var _saveRecipeBtn: Button
 
     private val _steps = arrayListOf<RecipeStep>()
@@ -44,8 +41,6 @@ class CreateRecipeFragment : Fragment(), IItemClickListener, SaveRecipeDialog.IC
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCreateRecipeBinding.inflate(inflater, container, false)
-
-        _viewModel = ViewModelProvider(this)[CreateRecipeViewModel::class.java]
 
         val recycler: RecyclerView = binding.root.findViewById(R.id.newRecipe_steps_list)
         recycler.adapter = _adapter
