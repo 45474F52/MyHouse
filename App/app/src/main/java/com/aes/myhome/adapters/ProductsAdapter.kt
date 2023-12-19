@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aes.myhome.R
 import com.aes.myhome.objects.Product
 
-class ProductsAdapter(private val list: List<Product>) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
+class ProductsAdapter(private val list: List<Product>)
+    : RecyclerView.Adapter<ProductsAdapter.ViewHolder>()
+{
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater
@@ -19,8 +21,8 @@ class ProductsAdapter(private val list: List<Product>) : RecyclerView.Adapter<Pr
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val product = list[position]
-        holder.productNameView.text = product.name
-        holder.productDescriptionView.text = product.description
+        holder.productName.text = product.name
+        holder.productDescription.text = product.description
     }
 
     override fun getItemCount(): Int {
@@ -28,7 +30,7 @@ class ProductsAdapter(private val list: List<Product>) : RecyclerView.Adapter<Pr
     }
 
     class ViewHolder(productView: View) : RecyclerView.ViewHolder(productView) {
-        val productNameView: TextView = productView.findViewById(R.id.product_name_text)
-        val productDescriptionView: TextView = productView.findViewById(R.id.product_description_text)
+        val productName: TextView = productView.findViewById(R.id.product_name_text)
+        val productDescription: TextView = productView.findViewById(R.id.product_description_text)
     }
 }

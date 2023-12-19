@@ -11,11 +11,17 @@ import com.aes.myhome.IItemClickListener
 import com.aes.myhome.R
 import com.aes.myhome.objects.RecipeStep
 
-class RecipeStepAdapter(private val list: List<RecipeStep>, private val listener: IItemClickListener)
-    : RecyclerView.Adapter<RecipeStepAdapter.ViewHolder>() {
+class RecipeStepAdapter(
+    private val list: List<RecipeStep>,
+    private val listener: IItemClickListener)
+    : RecyclerView.Adapter<RecipeStepAdapter.ViewHolder>()
+{
 
-    inner class ViewHolder(stepView: View) : RecyclerView.ViewHolder(stepView), View.OnClickListener {
-        val stepTextView: TextView = stepView.findViewById(R.id.recipe_step_text)
+    inner class ViewHolder(stepView: View) : RecyclerView.ViewHolder(stepView),
+        View.OnClickListener
+    {
+
+        val stepText: TextView = stepView.findViewById(R.id.recipe_step_text)
         val checkBox: ImageButton = stepView.findViewById(R.id.recipe_step_checkbox)
 
         init {
@@ -49,15 +55,17 @@ class RecipeStepAdapter(private val list: List<RecipeStep>, private val listener
         item.listener = { isChecked ->
             if (isChecked) {
                 holder.checkBox.setImageResource(R.drawable.check_circle)
-                holder.stepTextView.paintFlags = holder.stepTextView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                holder.stepText.paintFlags =
+                    holder.stepText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
             else {
                 holder.checkBox.setImageResource(R.drawable.unchecked_circle)
-                holder.stepTextView.paintFlags = holder.stepTextView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                holder.stepText.paintFlags =
+                    holder.stepText.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             }
         }
 
-        holder.stepTextView.text = item.text
+        holder.stepText.text = item.text
     }
 
 }

@@ -57,7 +57,7 @@ class SaveRecipeDialog(private val receiver: ICallbackReceiver) : DialogFragment
 
                 if (name.isBlank()) {
                     recipeName.setError(
-                        "Название не моежт быть пустым",
+                        "Название не может быть пустым",
                         AppCompatResources.getDrawable(requireContext(), R.drawable.error))
                     recipeName.requestFocus()
                     return@setOnClickListener

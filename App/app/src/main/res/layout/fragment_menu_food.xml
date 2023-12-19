@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.food.menu.MenuFragment">
+    tools:context=".ui.food.menu.showing_food.MenuFoodFragment">
 
     <LinearLayout
         android:id="@+id/food_linearLayout"
@@ -16,25 +16,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="10dp">
-
-            <ImageButton
-                android:id="@+id/close_food_popup_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:minWidth="48dp"
-                android:contentDescription="@string/action_close"
-                android:background="@android:color/transparent"
-                android:src="@drawable/close" />
-
-        </LinearLayout>
 
         <Button
             android:id="@+id/collapse_food_tools_btn"

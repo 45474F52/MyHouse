@@ -36,7 +36,8 @@ class FoodAdapter(private val list: List<Food>, private val listener: IItemClick
         holder.quantityView.text = DIHandler.getResources().getString(R.string.food_format_quantity, food.quantity)
 
         holder.layout.setOnClickListener {
-            holder.container.visibility = if (holder.container.visibility != View.VISIBLE) View.VISIBLE else View.GONE
+            holder.container.visibility =
+                if (holder.container.visibility != View.VISIBLE) View.VISIBLE else View.GONE
         }
     }
 
@@ -44,7 +45,9 @@ class FoodAdapter(private val list: List<Food>, private val listener: IItemClick
         return list.size
     }
 
-    inner class ViewHolder(foodView: View) : RecyclerView.ViewHolder(foodView), View.OnLongClickListener {
+    inner class ViewHolder(foodView: View) : RecyclerView.ViewHolder(foodView),
+        View.OnLongClickListener
+    {
 
         val foodIdView: TextView = foodView.findViewById(R.id.food_id_text)
 

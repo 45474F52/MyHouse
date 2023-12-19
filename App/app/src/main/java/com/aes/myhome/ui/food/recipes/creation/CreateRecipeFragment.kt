@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +19,7 @@ import com.aes.myhome.objects.RecipeStep
 import com.aes.myhome.storage.database.entities.Recipe
 import com.aes.myhome.storage.database.repositories.RecipeRepository
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.Date
@@ -99,8 +101,8 @@ class CreateRecipeFragment : Fragment(), IItemClickListener, SaveRecipeDialog.IC
         Navigation.findNavController(requireView()).navigate(R.id.nav_food_recipes_navToRecipes)
     }
 
-    private fun saveRecipe(recipe: Recipe) = runBlocking {
-        launch {
+    private fun saveRecipe(recipe: Recipe) {
+        lifecycleScope.launch(Dispatchers.IO) {
             repository.insertAll(recipe)
         }
     }

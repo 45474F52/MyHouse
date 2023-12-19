@@ -13,7 +13,8 @@ class FoodRepository @Inject constructor(
     /**
      * Формат даты и времени (dd.MM.yyyy hh:mm). Locale = ru-RU
      */
-    val dateTimeFormat = SimpleDateFormat("dd.MM.yyyy hh:mm", Locale.forLanguageTag("ru-RU"))
+    val dateTimeFormat =
+        SimpleDateFormat("dd.MM.yyyy hh:mm", Locale.forLanguageTag("ru-RU"))
 
     /**
      * Возвращает количество записей

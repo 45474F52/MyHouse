@@ -2,8 +2,6 @@ package com.aes.myhome.ui.food.shopping
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.aes.myhome.adapters.ProductsAdapter
-import com.aes.myhome.objects.Product
 import com.aes.myhome.storage.database.repositories.FoodRepository
 import com.aes.myhome.storage.json.JsonDataSerializer
 import javax.inject.Inject

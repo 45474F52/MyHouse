@@ -36,7 +36,10 @@ class JsonDataSerializer(private val context: Context, private val storage: Stor
             if (isExternalStorageAvailable()) {
                 //val dir = File(context.getExternalFilesDir(null), fileName)
 
-                val sdMain = File(Environment.getExternalStorageDirectory().path + "/" + directory)
+                val sdMain = File(Environment
+                        .getExternalStorageDirectory()
+                        .path + "/" + directory)
+
                 var success = true
 
                 if (!sdMain.exists()) {

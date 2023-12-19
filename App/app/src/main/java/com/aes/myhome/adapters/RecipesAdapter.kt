@@ -1,22 +1,18 @@
 package com.aes.myhome.adapters
 
-import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.aes.myhome.DIHandler
 import com.aes.myhome.IItemClickListener
 import com.aes.myhome.R
 import com.aes.myhome.storage.database.entities.Recipe
-import java.io.File
 
 class RecipesAdapter(private val list: List<Recipe>, private val listener: IItemClickListener)
-    : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
+    : RecyclerView.Adapter<RecipesAdapter.ViewHolder>()
+{
 
     override fun getItemCount(): Int {
         return list.size
@@ -32,7 +28,7 @@ class RecipesAdapter(private val list: List<Recipe>, private val listener: IItem
     override fun onBindViewHolder(holder: RecipesAdapter.ViewHolder, position: Int) {
         val recipe = list[position]
 
-        // TODO: Fix FileNotFoundException
+        // TODO: Fix FileNotFoundException. Getting photo from uri (path to gallery)
 //        if (recipe.image.isNotEmpty()) {
 //            val path = Uri.parse(recipe.image).toString()
 //            val file = File(path)
@@ -51,8 +47,11 @@ class RecipesAdapter(private val list: List<Recipe>, private val listener: IItem
             .getString(R.string.recipe_format_time, recipe.cookingTime.toDouble())
     }
 
-    inner class ViewHolder(recipeView: View) : RecyclerView.ViewHolder(recipeView), View.OnClickListener {
-        val imageContainerView: LinearLayout = recipeView.findViewById(R.id.recipe_image_container)
+    inner class ViewHolder(recipeView: View) : RecyclerView.ViewHolder(recipeView),
+        View.OnClickListener
+    {
+
+        //val imageContainerView: LinearLayout = recipeView.findViewById(R.id.recipe_image_container)
         val recipeNameView: TextView = recipeView.findViewById(R.id.recipe_name_text)
         val recipeDescriptionView: TextView = recipeView.findViewById(R.id.recipe_description_text)
 
@@ -68,4 +67,5 @@ class RecipesAdapter(private val list: List<Recipe>, private val listener: IItem
             }
         }
     }
+
 }

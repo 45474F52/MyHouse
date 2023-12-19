@@ -13,13 +13,14 @@ import android.widget.TextView
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import com.aes.myhome.DIHandler
+import com.aes.myhome.DateTimePicker
 import com.aes.myhome.R
 import com.aes.myhome.storage.database.entities.Food
 import java.io.Serializable
 import java.util.Calendar
 import java.util.Locale
 
-class EditFoodDialogFragment : DialogFragment(), OnDateSetListener, OnTimeSetListener {
+class EditFoodDialog : DialogFragment(), DateTimePicker.OnDateTimePickListener {
 
     private lateinit var _food: Food
 
@@ -27,21 +28,22 @@ class EditFoodDialogFragment : DialogFragment(), OnDateSetListener, OnTimeSetLis
 
     private lateinit var _useByDateView: TextView
 
+    private lateinit var _dateTimePicker: DateTimePicker
+
     interface ICallbackReceiver : Serializable {
         fun onPositive(food: Food)
-        fun onNegative(food: Food)
     }
 
     companion object {
         private const val RECEIVER_KEY = "receiver_key"
 
-        val TAG = EditFoodDialogFragment::class.simpleName
+        val TAG = EditFoodDialog::class.simpleName
 
-        fun getInstance(receiver: ICallbackReceiver): EditFoodDialogFragment {
+        fun getInstance(receiver: ICallbackReceiver): EditFoodDialog {
             return Bundle().apply {
                 putSerializable(RECEIVER_KEY, receiver)
             }.let {
-                EditFoodDialogFragment().apply { arguments = it }
+                EditFoodDialog().apply { arguments = it }
             }
         }
     }
@@ -56,6 +58,8 @@ class EditFoodDialogFragment : DialogFragment(), OnDateSetListener, OnTimeSetLis
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        _dateTimePicker = DateTimePicker({ requireContext() }, this)
+
         return activity?.let {
             val builder = AlertDialog.Builder(it)
 
@@ -72,17 +76,16 @@ class EditFoodDialogFragment : DialogFragment(), OnDateSetListener, OnTimeSetLis
             val quantityView: TextView = foodView.findViewById(R.id.food_quantity_edit)
 
             foodNameView.text = _food.foodName
-            _useByDateView.text = DIHandler.getResources().getString(R.string.food_format_useByDate, _food.useByDate)
+            _useByDateView.text = getString(R.string.food_format_useByDate, _food.useByDate)
             descriptionView.text = _food.description
-            proteinView.text = DIHandler.getResources().getString(R.string.food_format_protein, _food.protein)
-            fatView.text = DIHandler.getResources().getString(R.string.food_format_fat, _food.fat)
-            carbsView.text = DIHandler.getResources().getString(R.string.food_format_carbs, _food.carbs)
-            caloriesView.text = DIHandler.getResources().getString(R.string.food_format_calories, _food.calories)
-            quantityView.text = DIHandler.getResources().getString(R.string.food_format_quantity, _food.quantity)
+            proteinView.text = getString(R.string.food_format_protein, _food.protein)
+            fatView.text = getString(R.string.food_format_fat, _food.fat)
+            carbsView.text = getString(R.string.food_format_carbs, _food.carbs)
+            caloriesView.text = getString(R.string.food_format_calories, _food.calories)
+            quantityView.text = getString(R.string.food_format_quantity, _food.quantity)
 
             _useByDateView.setOnClickListener {
-                setCurrentDateTime()
-                DatePickerDialog(requireContext(), this, _year, _month, _day).show()
+                _dateTimePicker.pick()
             }
 
             builder
@@ -103,51 +106,16 @@ class EditFoodDialogFragment : DialogFragment(), OnDateSetListener, OnTimeSetLis
 
                     }
 
-                    _receiver.onPositive(_food)
+                    if (_food.foodName.isNotBlank() && _food.useByDate.isNotBlank())
+                        _receiver.onPositive(_food)
                 }
-                .setPositiveButton("Отменить") { _, _ ->
-                    _receiver.onNegative(_food)
-                }
+                .setNegativeButton("Отменить") { _, _ -> }
                 .create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
-    private var _day = 0
-    private var _month = 0
-    private var _year = 0
-    private var _hour = 0
-    private var _minute = 0
-
-    private var _savedDay = 0
-    private var _savedMonth = 0
-    private var _savedYear = 0
-    private var _savedHour = 0
-    private var _savedMinute = 0
-
-    private fun setCurrentDateTime() {
-        val calendar = Calendar.getInstance(Locale.forLanguageTag("ru-RU"))
-
-        _day = calendar.get(Calendar.DAY_OF_MONTH)
-        _month = calendar.get(Calendar.MONTH)
-        _year = calendar.get(Calendar.YEAR)
-        _hour = calendar.get(Calendar.HOUR)
-        _minute = calendar.get(Calendar.MINUTE)
-    }
-
-    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        _savedDay = dayOfMonth
-        _savedMonth = month
-        _savedYear = year
-
-        setCurrentDateTime()
-
-        TimePickerDialog(requireContext(), this, _hour, _minute, true).show()
-    }
-
-    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        _savedHour = hourOfDay
-        _savedMinute = minute
-
-        _useByDateView.text = getString(R.string.food_format_date_edit, _savedDay, _savedMonth, _savedYear, _savedHour, _savedMinute)
+    override fun onDateTimePicked(day: Int, month: Int, year: Int, hour: Int, minute: Int) {
+        _useByDateView.text =
+            getString(R.string.food_format_date_edit, day, month, year, hour, minute)
     }
 }

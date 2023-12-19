@@ -35,9 +35,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:inputType="textCapSentences"
+                android:inputType="textFilter"
                 android:hint="@string/hint_search_recipe"
-                android:queryHint="Поиск рецепта" />
+                android:queryHint="@string/hint_search_recipe" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

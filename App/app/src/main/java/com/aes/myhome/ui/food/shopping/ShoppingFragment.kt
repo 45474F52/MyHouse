@@ -3,14 +3,10 @@ package com.aes.myhome.ui.food.shopping
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -18,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aes.myhome.ItemTouchCallback
 import com.aes.myhome.R
+import com.aes.myhome.adapters.ProductsAdapter
 import com.aes.myhome.databinding.FragmentShoppingBinding
 import com.aes.myhome.objects.Product
 import com.aes.myhome.storage.database.repositories.FoodRepository
@@ -26,20 +23,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ShoppingFragment : Fragment(), OnClickListener, SendProductsDialogFragment.ICallbackReceiver {
+class ShoppingFragment : Fragment(),
+    SendProductsDialog.ICallbackReceiver,
+    ItemTouchCallback.Receiver<Product> {
 
     @Inject lateinit var repository: FoodRepository
 
     private lateinit var _viewModel: ShoppingViewModel
-
-    private lateinit var _toolsContainer: LinearLayout
-    private lateinit var _nameTextEditor: EditText
-    private lateinit var _descriptionTextEditor: EditText
-    private lateinit var _collapseBtn: Button
-    private lateinit var _addProductBtn: Button
-    private lateinit var _finishShoppingBtn: Button
-    private lateinit var _clearListBtn: Button
-    private lateinit var _bottomButtons: LinearLayout
+    private lateinit var _adapter: ProductsAdapter
 
     private var _binding: FragmentShoppingBinding? = null
     private val binding get() = _binding!!
@@ -58,42 +49,71 @@ class ShoppingFragment : Fragment(), OnClickListener, SendProductsDialogFragment
                 repository = repository
             ))[ShoppingViewModel::class.java]
 
-        val recycler = binding.root.findViewById<RecyclerView>(R.id.products_list)
-        recycler.adapter = _viewModel.adapter
-        recycler.layoutManager = LinearLayoutManager(context)
+        val finishShoppingBtn: Button = binding.root.findViewById(R.id.finish_shopping_btn)
+        val clearListBtn: Button = binding.root.findViewById(R.id.clear_list_btn)
 
-        val update = fun(_: Int, _: Product) { _viewModel.updateValues() }
+        _viewModel.loadProducts {
+            _adapter = ProductsAdapter(_viewModel.products.value!!)
 
-        ItemTouchHelper(ItemTouchCallback(
-            0, ItemTouchHelper.RIGHT, _viewModel.products, recycler, _viewModel.adapter, update, update, {}))
-            .attachToRecyclerView(recycler)
+            val recycler: RecyclerView = binding.root.findViewById(R.id.products_list)
+            recycler.adapter = _adapter
+            recycler.layoutManager = LinearLayoutManager(context)
 
-        _viewModel.updateProducts()
+            ItemTouchHelper(ItemTouchCallback(
+                0,
+                ItemTouchHelper.RIGHT,
+                _viewModel.products.value!!,
+                recycler,
+                this))
+                .attachToRecyclerView(recycler)
 
-        _toolsContainer = binding.root.findViewById(R.id.tools_container)
-        _bottomButtons = binding.root.findViewById(R.id.bottom_shopping_buttons)
+            finishShoppingBtn.setOnClickListener {
+                showSendProductsDialog()
+            }
 
-        _nameTextEditor = binding.root.findViewById(R.id.product_name_edit)
-        _descriptionTextEditor = binding.root.findViewById(R.id.product_description_edit)
+            clearListBtn.setOnClickListener {
+                val tmp = _viewModel.count.value!!
+                _viewModel.clearProducts()
+                _adapter.notifyItemRangeRemoved(0, tmp)
+            }
+        }
 
-        _collapseBtn = binding.root.findViewById(R.id.collapse_tools_btn)
-        _addProductBtn = binding.root.findViewById(R.id.add_product_btn)
-        _finishShoppingBtn = binding.root.findViewById(R.id.finish_shopping_btn)
-        _clearListBtn = binding.root.findViewById(R.id.clear_list_btn)
+        val toolsContainer: LinearLayout = binding.root.findViewById(R.id.tools_container)
+        val bottomButtons: LinearLayout = binding.root.findViewById(R.id.bottom_shopping_buttons)
 
-        setOnClickListenerTo(_collapseBtn, _addProductBtn, _finishShoppingBtn, _clearListBtn)
+        val nameTextEditor: EditText = binding.root.findViewById(R.id.product_name_edit)
+        val descriptionTextEditor: EditText = binding.root.findViewById(R.id.product_description_edit)
+
+        val collapseBtn: Button = binding.root.findViewById(R.id.collapse_tools_btn)
+        val addProductBtn: Button = binding.root.findViewById(R.id.add_product_btn)
+
+        collapseBtn.setOnClickListener {
+            toolsContainer.visibility = View.VISIBLE
+            collapseBtn.visibility = View.GONE
+            nameTextEditor.requestFocus()
+        }
+
+        addProductBtn.setOnClickListener {
+            toolsContainer.visibility = View.GONE
+            collapseBtn.visibility = View.VISIBLE
+
+            val name = nameTextEditor.text.toString()
+            val description = descriptionTextEditor.text.toString()
+
+            if (name.isNotBlank()) {
+                _viewModel.addProduct(name, description)
+                _adapter.notifyItemInserted(_viewModel.count.value!!.minus(1))
+            }
+
+            nameTextEditor.text.clear()
+            descriptionTextEditor.text.clear()
+        }
 
         _viewModel.count.observe(viewLifecycleOwner) {
-            _bottomButtons.visibility = if (it == 0) View.GONE else View.VISIBLE
+            bottomButtons.visibility = if (it == 0) View.GONE else View.VISIBLE
         }
 
         return binding.root
-    }
-
-    private fun setOnClickListenerTo(vararg buttons: Button) {
-        for (button in buttons) {
-            button.setOnClickListener(this)
-        }
     }
 
     override fun onDestroyView() {
@@ -101,68 +121,35 @@ class ShoppingFragment : Fragment(), OnClickListener, SendProductsDialogFragment
         _binding = null
     }
 
-    override fun onClick(v: View?) {
-        when (v!!.id) {
-            R.id.add_product_btn -> {
-                _descriptionTextEditor.clearFocus()
-                _nameTextEditor.clearFocus()
-                hideVirtualKeyboard()
-                _toolsContainer.visibility = View.GONE
-                _collapseBtn.visibility = View.VISIBLE
-                addProduct()
-            }
-            R.id.collapse_tools_btn -> {
-                _toolsContainer.visibility = View.VISIBLE
-                _collapseBtn.visibility = View.GONE
-                _nameTextEditor.requestFocus()
-                showVirtualKeyboard()
-            }
-            R.id.finish_shopping_btn -> {
-                showSendProductsDialog()
-            }
-            R.id.clear_list_btn -> {
-                _viewModel.clearProducts()
-            }
-            else -> throw NotImplementedError("Has not on click implementation! Id = $v.id")
-        }
+    override fun onNegative() {
+        val tmp = _viewModel.count.value!!
+        _viewModel.clearProducts()
+        _adapter.notifyItemRangeRemoved(0, tmp)
+    }
+
+    override fun onPositive() {
+        val tmp = _viewModel.count.value!!
+        _viewModel.finishShopping()
+        _adapter.notifyItemRangeRemoved(0, tmp)
     }
 
     private fun showSendProductsDialog() {
         val fragmentManager = requireActivity().supportFragmentManager
-        val dialog = SendProductsDialogFragment.getInstance(this)
-        dialog.show(fragmentManager, SendProductsDialogFragment.TAG)
+        val dialog = SendProductsDialog.getInstance(this)
+        dialog.show(fragmentManager, SendProductsDialog.TAG)
     }
 
-    override fun onNegative(dialog: DialogFragment) {
-        _viewModel.clearProducts()
+    override fun onDelete(index: Int, item: Product) {
+        _viewModel.requestToDelete(index)
+        _adapter.notifyItemRemoved(index)
     }
 
-    override fun onPositive(dialog: DialogFragment) {
-        _viewModel.finishShopping()
+    override fun onUndo(index: Int, item: Product) {
+        _viewModel.undoDeletion(index, item)
+        _adapter.notifyItemInserted(index)
     }
 
-    private fun addProduct() {
-        val name = _nameTextEditor.text.toString()
-        val description = _descriptionTextEditor.text.toString()
-
-        if (name.isNotBlank()) {
-            _viewModel.addProduct(name, description)
-        }
-
-        _nameTextEditor.text.clear()
-        _descriptionTextEditor.text.clear()
-    }
-
-    private fun hideVirtualKeyboard() {
-        val imm = getSystemService(requireContext(), InputMethodManager::class.java)
-        imm?.let {
-            it.hideSoftInputFromWindow(_nameTextEditor.windowToken, 0)
-            it.hideSoftInputFromWindow(_descriptionTextEditor.windowToken, 0)
-        }
-    }
-
-    private fun showVirtualKeyboard() {
-        val imm = getSystemService(requireContext(), InputMethodManager::class.java)
-        imm?.showSoftInput(_nameTextEditor, 0)
+    override fun onDismissed(item: Product) {
+        _viewModel.confirmDeletion()
     }
 }

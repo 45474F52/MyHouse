@@ -97,7 +97,22 @@
         android:id="@+id/nav_food_menu"
         android:name="com.aes.myhome.ui.food.menu.MenuFragment"
         android:label="@string/menu_food_menu"
-        tools:layout="@layout/fragment_menu" />
+        tools:layout="@layout/fragment_menu">
+
+        <action
+            android:id="@+id/nav_food_menu_navToFoodShowing"
+            app:destination="@id/nav_food_menu_food_showing"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_food_menu_food_showing"
+        android:name="com.aes.myhome.ui.food.menu.showing_food.MenuFoodFragment"
+        android:label="Продукты"
+        tools:layout="@layout/fragment_menu_food" />
 
     <fragment
         android:id="@+id/nav_food_recipes"

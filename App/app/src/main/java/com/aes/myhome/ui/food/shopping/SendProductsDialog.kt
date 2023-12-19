@@ -6,25 +6,25 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import java.io.Serializable
 
-class SendProductsDialogFragment : DialogFragment() {
+class SendProductsDialog : DialogFragment() {
 
     private lateinit var _receiver: ICallbackReceiver
 
     interface ICallbackReceiver : Serializable {
-        fun onPositive(dialog: DialogFragment)
-        fun onNegative(dialog: DialogFragment)
+        fun onPositive()
+        fun onNegative()
     }
 
     companion object {
         private const val RECEIVER_KEY = "receiver_key"
 
-        val TAG = SendProductsDialogFragment::class.simpleName
+        val TAG = SendProductsDialog::class.simpleName
 
-        fun getInstance(receiver: ICallbackReceiver): SendProductsDialogFragment {
+        fun getInstance(receiver: ICallbackReceiver): SendProductsDialog {
             return Bundle().apply {
                 putSerializable(RECEIVER_KEY, receiver)
             }.let {
-                SendProductsDialogFragment().apply { arguments = it }
+                SendProductsDialog().apply { arguments = it }
             }
         }
     }
@@ -42,10 +42,10 @@ class SendProductsDialogFragment : DialogFragment() {
                 .setTitle("Добавить купленные продукты в список?")
                 .setMessage("Это позволит отслеживать их срок годности, а так же создавать с ними рецепты")
                 .setPositiveButton("Да") { _, _ ->
-                    _receiver.onPositive(this)
+                    _receiver.onPositive()
                 }
                 .setNegativeButton("Нет") { _, _ ->
-                    _receiver.onNegative(this)
+                    _receiver.onNegative()
                 }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")

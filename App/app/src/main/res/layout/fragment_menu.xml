@@ -27,7 +27,6 @@
             android:textSize="22sp"
             android:layout_marginHorizontal="30dp" />
 
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

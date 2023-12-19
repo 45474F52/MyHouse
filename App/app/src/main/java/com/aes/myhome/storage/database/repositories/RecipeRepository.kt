@@ -11,7 +11,8 @@ class RecipeRepository @Inject constructor(private val recipeDAO: RecipeDAO) {
     /**
      * Формат даты и времени (dd.MM.yyyy). Locale = ru-RU
      */
-    val dateTimeFormat = SimpleDateFormat("dd.MM.yyyy", Locale.forLanguageTag("ru-RU"))
+    val dateTimeFormat =
+        SimpleDateFormat("dd.MM.yyyy", Locale.forLanguageTag("ru-RU"))
 
     /**
      * Возвращает количество записей

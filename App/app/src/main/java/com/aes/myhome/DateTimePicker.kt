@@ -18,8 +18,9 @@ class DateTimePicker(
     : OnDateSetListener, OnTimeSetListener {
 
     interface OnDateTimePickListener {
-        fun onDatePicked(day: Int, month: Int, year: Int)
-        fun onTimePicked(hour: Int, minute: Int)
+        fun onDatePicked(day: Int, month: Int, year: Int) { }
+        fun onTimePicked(hour: Int, minute: Int) { }
+        fun onDateTimePicked(day: Int, month: Int, year: Int, hour: Int, minute: Int)
     }
 
     private var _day = 0
@@ -66,5 +67,7 @@ class DateTimePicker(
         _savedMinute = minute
 
         listener.onTimePicked(_savedHour, _savedMinute)
+
+        listener.onDateTimePicked(_savedDay, _savedMonth, _savedYear, _savedHour, _savedMinute)
     }
 }
