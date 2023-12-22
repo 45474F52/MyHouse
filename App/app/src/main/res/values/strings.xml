@@ -63,6 +63,9 @@
     <string name="action_clear">Очистить</string>
     <string name="action_finishShopping">Всё куплено!</string>
     <string name="action_new_step">Новый шаг</string>
+    <string name="action_load_image">Загрузить изображение</string>
+    <string name="action_cancel">Отменить</string>
+    <string name="action_add_recipe">Добавить рецепт</string>
     <!-- Hints -->
     <string name="hint_item_name">Название:</string>
     <string name="hint_select_useByDate">Выбрать срок годности</string>
@@ -73,15 +76,17 @@
     <string name="hint_enter_calories">Калорий на 100 г.:</string>
     <string name="hint_item_description">Дополнительно:</string>
     <string name="hint_recipe_step_description">Описание шага…</string>
+    <string name="hint_cookingTime">Время готовки (в минутах):</string>
+    <string name="hint_search_recipe">Поиск рецепта</string>
+    <string name="hint_used_products"><u>Используемые продукты:</u></string>
     <!-- Content Description -->
     <string name="cnt_descr_mark_recipe_step">Mark recipe step</string>
     <string name="menu_food_recipes_creation">Создание рецепта</string>
     <string name="cnt_descr_remove_recipe_step">Remove recipe step</string>
-    <string name="hint_cookingTime">Время готовки (в минутах):</string>
     <string name="cnt_descr_recipe_preview_image">Recipe preview image</string>
-    <string name="action_load_image">Загрузить изображение</string>
-    <string name="action_cancel">Отменить</string>
-    <string name="action_add_recipe">Добавить рецепт</string>
-    <string name="hint_search_recipe">Поиск рецепта</string>
+    <!-- Titles -->
     <string name="home_title">Выбирайте элементы для быстрой навигации</string>
+    <string name="title_found_recipes">Можно приготовить</string>
+    <string name="title_recommended_recipes">Рекомендуем</string>
+    <string name="cnt_descr_check_food">Check food</string>
 </resources>

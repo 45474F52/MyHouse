@@ -12,7 +12,7 @@ import com.aes.myhome.IItemClickListener
 import com.aes.myhome.R
 import com.aes.myhome.adapters.RecipeStepAdapter
 import com.aes.myhome.databinding.FragmentShowRecipeBinding
-import com.aes.myhome.objects.RecipeStep
+import com.aes.myhome.objects.CheckableText
 import com.aes.myhome.storage.database.entities.Recipe
 
 class ShowRecipeFragment : Fragment(), IItemClickListener {
@@ -20,7 +20,7 @@ class ShowRecipeFragment : Fragment(), IItemClickListener {
     private var _binding: FragmentShowRecipeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var _steps: List<RecipeStep>
+    private lateinit var _steps: List<CheckableText>
     private lateinit var _stepsView: TextView
 
     @Suppress("DEPRECATION") // on getParcelable(string)

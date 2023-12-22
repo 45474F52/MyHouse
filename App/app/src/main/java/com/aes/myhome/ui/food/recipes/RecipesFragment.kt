@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -19,6 +20,7 @@ import com.aes.myhome.R
 import com.aes.myhome.adapters.RecipesAdapter
 import com.aes.myhome.databinding.FragmentRecipesBinding
 import com.aes.myhome.storage.database.entities.Recipe
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
@@ -67,15 +69,16 @@ class RecipesFragment : Fragment(),
             ).attachToRecyclerView(recycler)
         }
 
-        val addRecipeBtn: Button = binding.root.findViewById(R.id.add_recipe_btn)
+        val addRecipeBtn: FloatingActionButton = binding.root.findViewById(R.id.add_recipe_btn)
         addRecipeBtn.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.nav_food_recipes_navToCreation)
         }
 
-        val clearRecipesBtn: Button = binding.root.findViewById(R.id.clear_recipe_list_btn)
+        val clearRecipesBtn: ImageButton = binding.root.findViewById(R.id.clear_recipe_list_btn)
         clearRecipesBtn.setOnClickListener {
             val tmp = _viewModel.count.value!!
             _viewModel.clear()
+            _filteredRecipes.clear()
             _adapter.notifyItemRangeRemoved(0, tmp)
         }
 

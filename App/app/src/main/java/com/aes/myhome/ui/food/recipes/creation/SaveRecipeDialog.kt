@@ -8,18 +8,37 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.aes.myhome.IItemClickListener
 import com.aes.myhome.R
+import com.aes.myhome.adapters.CheckableFoodAdapter
+import com.aes.myhome.objects.CheckableText
 import java.io.Serializable
 
-class SaveRecipeDialog(private val receiver: ICallbackReceiver) : DialogFragment() {
+class SaveRecipeDialog(
+    private val receiver: ICallbackReceiver,
+    private val foods: List<CheckableText>
+) : DialogFragment(), IItemClickListener
+{
+
+    private var _foodsVisible = false
+
+    private val _checkableItems = mutableListOf<CheckableText>()
 
     interface ICallbackReceiver : Serializable {
-        fun onPositive(recipeName: String, cookingTime: Double, image: Uri)
+        fun onPositive(
+            recipeName: String,
+            cookingTime: Double,
+            image: Uri,
+            foods: List<CheckableText>)
     }
+
     companion object {
         val TAG = SaveRecipeDialog::class.simpleName
     }
@@ -33,6 +52,17 @@ class SaveRecipeDialog(private val receiver: ICallbackReceiver) : DialogFragment
 
             val posBtn: Button = dialogView.findViewById(R.id.dialog_positive_btn)
             val negBtn: Button = dialogView.findViewById(R.id.dialog_negative_btn)
+
+            val recyclerView: RecyclerView = dialogView.findViewById(R.id.used_recipes_list)
+            val adapter = CheckableFoodAdapter(foods, this)
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+            val usedRecipesText: TextView = dialogView.findViewById(R.id.used_recipes_text)
+            usedRecipesText.setOnClickListener {
+                _foodsVisible = !_foodsVisible
+                recyclerView.visibility = if (_foodsVisible) View.VISIBLE else View.GONE
+            }
 
             val recipeName: EditText = dialogView.findViewById(R.id.recipe_name_edit)
             val cookingTime: EditText = dialogView.findViewById(R.id.recipe_cookingTime_edit)
@@ -71,7 +101,7 @@ class SaveRecipeDialog(private val receiver: ICallbackReceiver) : DialogFragment
                     return@setOnClickListener
                 }
 
-                receiver.onPositive(name, time, path)
+                receiver.onPositive(name, time, path, _checkableItems)
                 dismiss()
             }
 
@@ -84,6 +114,20 @@ class SaveRecipeDialog(private val receiver: ICallbackReceiver) : DialogFragment
                 .setTitle("Сохранение рецепта")
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
+    }
+
+    override fun onItemLongClick(index: Int) { }
+
+    override fun onItemClick(index: Int) {
+        val item = foods[index]
+        item.toggle()
+
+        if (item.isChecked()) {
+            _checkableItems.add(item)
+        }
+        else {
+            _checkableItems.remove(item)
+        }
     }
 
 }

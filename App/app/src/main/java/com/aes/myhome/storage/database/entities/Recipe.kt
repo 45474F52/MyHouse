@@ -5,13 +5,18 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
+import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.aes.myhome.objects.RecipeStep
+import com.aes.myhome.objects.CheckableText
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
 @Serializable
-@Entity(tableName = "Recipe")
+@Entity(
+    tableName = "Recipe",
+    indices = [
+        Index("RecipeName", unique = true)
+    ])
 data class Recipe(
 
     @ColumnInfo(name = "RecipeName") var recipeName: String,
@@ -24,7 +29,7 @@ data class Recipe(
 
     @PrimaryKey(autoGenerate = true) var recipeId: Int = 0
     @Ignore val stepsDelimiter: Char = '#'
-    @Ignore @Transient var steps: List<RecipeStep> = arrayListOf()
+    @Ignore @Transient var steps: List<CheckableText> = arrayListOf()
 
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
@@ -40,7 +45,7 @@ data class Recipe(
         if (description.isNotEmpty()) {
             steps = description
                 .split(stepsDelimiter)
-                .map { t -> RecipeStep(t) }
+                .map { t -> CheckableText(t) }
                 .filter { s -> s.text.isNotBlank() }
         }
     }

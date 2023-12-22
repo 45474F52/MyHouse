@@ -32,6 +32,11 @@ class MenuFragment : Fragment() {
             Navigation.findNavController(it).navigate(R.id.nav_food_menu_navToFoodShowing)
         }
 
+        val findRecipesBtn: Button = binding.root.findViewById(R.id.find_recipes_btn)
+        findRecipesBtn.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.nav_food_menu_navToRecipesFinding)
+        }
+
         return binding.root
     }
 

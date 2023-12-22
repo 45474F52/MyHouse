@@ -15,13 +15,13 @@ import com.aes.myhome.IItemClickListener
 import com.aes.myhome.R
 import com.aes.myhome.adapters.NewRecipeStepAdapter
 import com.aes.myhome.databinding.FragmentCreateRecipeBinding
-import com.aes.myhome.objects.RecipeStep
+import com.aes.myhome.objects.CheckableText
 import com.aes.myhome.storage.database.entities.Recipe
+import com.aes.myhome.storage.database.repositories.FoodRepository
 import com.aes.myhome.storage.database.repositories.RecipeRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.util.Date
 import javax.inject.Inject
 
@@ -29,13 +29,14 @@ import javax.inject.Inject
 class CreateRecipeFragment : Fragment(), IItemClickListener, SaveRecipeDialog.ICallbackReceiver {
 
     @Inject lateinit var repository: RecipeRepository
+    @Inject lateinit var foodRepository: FoodRepository
 
     private var _binding: FragmentCreateRecipeBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var _saveRecipeBtn: Button
 
-    private val _steps = arrayListOf<RecipeStep>()
+    private val _steps = arrayListOf<CheckableText>()
     private val _adapter = NewRecipeStepAdapter(_steps, this)
 
     override fun onCreateView(
@@ -55,7 +56,7 @@ class CreateRecipeFragment : Fragment(), IItemClickListener, SaveRecipeDialog.IC
 
         val addStepBtn: Button = binding.root.findViewById(R.id.add_step_btn)
         addStepBtn.setOnClickListener {
-            _steps.add(RecipeStep(""))
+            _steps.add(CheckableText(""))
             _adapter.notifyItemInserted(_steps.size - 1)
 
             if (_saveRecipeBtn.visibility == View.GONE) {
@@ -83,11 +84,20 @@ class CreateRecipeFragment : Fragment(), IItemClickListener, SaveRecipeDialog.IC
     }
 
     private fun saveRecipeDialog() {
-        val dialog = SaveRecipeDialog(this)
-        dialog.show(requireActivity().supportFragmentManager, SaveRecipeDialog.TAG)
+        lifecycleScope.launch {
+            val dialog = SaveRecipeDialog(
+                this@CreateRecipeFragment,
+                foodRepository.getAll().map { f -> CheckableText(f.foodName) })
+            dialog.show(requireActivity().supportFragmentManager, SaveRecipeDialog.TAG)
+        }
     }
 
-    override fun onPositive(recipeName: String, cookingTime: Double, image: Uri) {
+    override fun onPositive(
+        recipeName: String,
+        cookingTime: Double,
+        image: Uri,
+        foods: List<CheckableText>
+    ) {
         val recipe = Recipe(
             recipeName = recipeName,
             creationDate = repository.dateTimeFormat.format(Date()),

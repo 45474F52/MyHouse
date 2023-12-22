@@ -100,10 +100,6 @@ class MenuFoodViewModel @Inject constructor(
     }
 
     fun clear() {
-        _foodInternal.clear()
-        _food.value = emptyList()
-        _count.value = 0
-
         clearFood()
     }
 
@@ -126,8 +122,14 @@ class MenuFoodViewModel @Inject constructor(
     }
 
     private fun clearFood() {
-        viewModelScope.launch(Dispatchers.IO) {
-            foodRepository.deleteAll(*food.value!!.toTypedArray())
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                foodRepository.deleteAll(*food.value!!.toTypedArray())
+            }
+
+            _foodInternal.clear()
+            _food.value = emptyList()
+            _count.value = 0
         }
     }
 

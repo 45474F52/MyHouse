@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:background="@drawable/side_nav_bar" />
+        android:background="?attr/colorPrimary" />
 
     <TextView
         android:id="@+id/recipe_name_text"

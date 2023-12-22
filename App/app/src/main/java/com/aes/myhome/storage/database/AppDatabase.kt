@@ -13,33 +13,14 @@ import com.aes.myhome.storage.database.entities.Recipe
 import com.aes.myhome.storage.database.entities.RecipeFoodCrossRef
 
 @Database(
-    version = 3,
+    version = 1,
     exportSchema = true,
     entities = [
         Food::class,
         Recipe::class,
-        RecipeFoodCrossRef::class],
-    autoMigrations = [
-        AutoMigration(from = 1, to = 2),
-        AutoMigration(from = 2, to = 3, spec = AppDatabase.AppDatabaseAutoMigration::class)
-    ]
+        RecipeFoodCrossRef::class]
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun foodDAO(): FoodDAO
     abstract fun recipeDAO(): RecipeDAO
-
-    @RenameColumn.Entries(
-        RenameColumn(
-            tableName = "Food",
-            fromColumnName = "id",
-            toColumnName = "foodId"
-        )
-    )
-    @DeleteColumn.Entries(
-        DeleteColumn(
-            tableName = "Food",
-            columnName = "id"
-        )
-    )
-    class AppDatabaseAutoMigration : AutoMigrationSpec
 }

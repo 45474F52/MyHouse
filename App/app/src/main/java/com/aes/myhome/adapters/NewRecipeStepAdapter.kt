@@ -8,11 +8,11 @@ import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.aes.myhome.IItemClickListener
 import com.aes.myhome.R
-import com.aes.myhome.objects.RecipeStep
+import com.aes.myhome.objects.CheckableText
 import com.google.android.material.textfield.TextInputEditText
 
 class NewRecipeStepAdapter(
-    private val list: List<RecipeStep>,
+    private val list: List<CheckableText>,
     private val listener: IItemClickListener)
     : RecyclerView.Adapter<NewRecipeStepAdapter.ViewHolder>()
 {

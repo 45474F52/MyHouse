@@ -106,6 +106,22 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <action
+            android:id="@+id/nav_food_menu_navToRecipesFinding"
+            app:destination="@id/nav_food_menu_recipes_finding"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <action
+            android:id="@+id/nav_food_menu_navToRecipesShowing"
+            app:destination="@id/nav_food_recipes_showing"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -113,6 +129,12 @@
         android:name="com.aes.myhome.ui.food.menu.showing_food.MenuFoodFragment"
         android:label="Продукты"
         tools:layout="@layout/fragment_menu_food" />
+
+    <fragment
+        android:id="@+id/nav_food_menu_recipes_finding"
+        android:name="com.aes.myhome.ui.food.menu.recipes_finding.MenuRecipesFragment"
+        android:label="Рецепты"
+        tools:layout="@layout/fragment_menu_recipes" />
 
     <fragment
         android:id="@+id/nav_food_recipes"

@@ -19,6 +19,7 @@ object DIProvider {
     fun provideAppDatabase(@ApplicationContext context: Context) =
         Room
             .databaseBuilder(context, AppDatabase::class.java, "MyHomeDB")
+            .fallbackToDestructiveMigration()
             .build()
 
     @Singleton

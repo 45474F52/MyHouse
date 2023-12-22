@@ -98,10 +98,6 @@ class RecipesViewModel @Inject constructor(
     }
 
     fun clear() {
-        _recipesInternal.clear()
-        _recipes.value = emptyList()
-        _count.value = 0
-
         clearRecipes()
     }
 
@@ -124,10 +120,14 @@ class RecipesViewModel @Inject constructor(
     }
 
     private fun clearRecipes() {
-        if (!recipes.value.isNullOrEmpty()) {
-            viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
                 repository.deleteAll(*recipes.value!!.toTypedArray())
             }
+
+            _recipesInternal.clear()
+            _recipes.value = emptyList()
+            _count.value = 0
         }
     }
 }

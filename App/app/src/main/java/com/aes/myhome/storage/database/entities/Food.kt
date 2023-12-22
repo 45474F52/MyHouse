@@ -2,11 +2,16 @@ package com.aes.myhome.storage.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-@Entity(tableName = "Food")
+@Entity(
+    tableName = "Food",
+    indices = [
+        Index("FoodName", unique = true)
+    ])
 data class Food (
 
     @ColumnInfo(name = "FoodName") var foodName: String,

@@ -1,6 +1,5 @@
 package com.aes.myhome.adapters
 
-import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,22 +10,20 @@ import com.aes.myhome.IItemClickListener
 import com.aes.myhome.R
 import com.aes.myhome.objects.CheckableText
 
-class RecipeStepAdapter(
+class CheckableFoodAdapter(
     private val list: List<CheckableText>,
     private val listener: IItemClickListener)
-    : RecyclerView.Adapter<RecipeStepAdapter.ViewHolder>()
+    : RecyclerView.Adapter<CheckableFoodAdapter.ViewHolder>()
 {
-
-    inner class ViewHolder(stepView: View) : RecyclerView.ViewHolder(stepView),
+    inner class ViewHolder(foodView: View) : RecyclerView.ViewHolder(foodView),
         View.OnClickListener
     {
-
-        val stepText: TextView = stepView.findViewById(R.id.recipe_step_text)
-        val checkBox: ImageButton = stepView.findViewById(R.id.recipe_step_checkbox)
+        val foodName: TextView = foodView.findViewById(R.id.food_name_text)
+        val imageBtn: ImageButton = foodView.findViewById(R.id.item_food_checkbox)
 
         init {
-            stepView.setOnClickListener(this)
-            checkBox.setOnClickListener(this)
+            foodView.setOnClickListener(this)
+            imageBtn.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
@@ -36,36 +33,30 @@ class RecipeStepAdapter(
                 listener.onItemClick(index)
             }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.item_recipe_step, parent, false)
+            .inflate(R.layout.item_food_checkable, parent, false)
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
+    override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
 
         item.listener = { isChecked ->
             if (isChecked) {
-                holder.checkBox.setImageResource(R.drawable.check_circle)
-                holder.stepText.paintFlags =
-                    holder.stepText.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                holder.imageBtn.setImageResource(R.drawable.check_circle)
             }
             else {
-                holder.checkBox.setImageResource(R.drawable.unchecked_circle)
-                holder.stepText.paintFlags =
-                    holder.stepText.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                holder.imageBtn.setImageResource(R.drawable.unchecked_circle)
             }
         }
 
-        holder.stepText.text = item.text
+        holder.foodName.text = item.text
     }
-
 }
