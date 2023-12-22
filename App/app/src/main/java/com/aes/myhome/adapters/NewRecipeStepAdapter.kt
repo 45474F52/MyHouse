@@ -19,7 +19,6 @@ class NewRecipeStepAdapter(
 
     inner class ViewHolder(stepView: View) : RecyclerView.ViewHolder(stepView), View.OnClickListener
     {
-
         private val _stepTextInput: TextInputEditText =
             stepView.findViewById(R.id.new_recipe_step_input)
         private val _removeStepImgBtn: ImageButton =

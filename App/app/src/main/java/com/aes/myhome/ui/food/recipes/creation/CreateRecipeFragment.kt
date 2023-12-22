@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,28 +17,29 @@ import com.aes.myhome.R
 import com.aes.myhome.adapters.NewRecipeStepAdapter
 import com.aes.myhome.databinding.FragmentCreateRecipeBinding
 import com.aes.myhome.objects.CheckableText
+import com.aes.myhome.storage.database.entities.Food
 import com.aes.myhome.storage.database.entities.Recipe
-import com.aes.myhome.storage.database.repositories.FoodRepository
-import com.aes.myhome.storage.database.repositories.RecipeRepository
+import com.aes.myhome.storage.database.entities.RecipeFoodCrossRef
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Date
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CreateRecipeFragment : Fragment(), IItemClickListener, SaveRecipeDialog.ICallbackReceiver {
 
-    @Inject lateinit var repository: RecipeRepository
-    @Inject lateinit var foodRepository: FoodRepository
-
     private var _binding: FragmentCreateRecipeBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var _viewModel: CreateRecipeViewModel
 
     private lateinit var _saveRecipeBtn: Button
 
     private val _steps = arrayListOf<CheckableText>()
     private val _adapter = NewRecipeStepAdapter(_steps, this)
+
+    private lateinit var _foods: List<Food>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,19 +47,29 @@ class CreateRecipeFragment : Fragment(), IItemClickListener, SaveRecipeDialog.IC
     ): View {
         _binding = FragmentCreateRecipeBinding.inflate(inflater, container, false)
 
+        _viewModel = ViewModelProvider(this)[CreateRecipeViewModel::class.java]
+
+        _viewModel.foods.observe(viewLifecycleOwner) {
+            _foods = it
+        }
+
         val recycler: RecyclerView = binding.root.findViewById(R.id.newRecipe_steps_list)
         recycler.adapter = _adapter
         recycler.layoutManager = LinearLayoutManager(context)
 
         _saveRecipeBtn = binding.root.findViewById(R.id.save_recipe_btn)
         _saveRecipeBtn.setOnClickListener {
-            saveRecipeDialog()
+            showSaveRecipeDialog()
         }
 
         val addStepBtn: Button = binding.root.findViewById(R.id.add_step_btn)
         addStepBtn.setOnClickListener {
             _steps.add(CheckableText(""))
-            _adapter.notifyItemInserted(_steps.size - 1)
+            val position = _steps.size - 1
+            _adapter.notifyItemInserted(position)
+            recycler.scrollToPosition(position)
+            (recycler.layoutManager as LinearLayoutManager)
+                .findViewByPosition(position)?.requestFocus()
 
             if (_saveRecipeBtn.visibility == View.GONE) {
                 _saveRecipeBtn.visibility = View.VISIBLE
@@ -83,12 +95,22 @@ class CreateRecipeFragment : Fragment(), IItemClickListener, SaveRecipeDialog.IC
         }
     }
 
-    private fun saveRecipeDialog() {
+    private val _checkableFoods = mutableListOf<CheckableText>()
+    private fun showSaveRecipeDialog() {
+        _checkableFoods.addAll(_foods.map { f -> CheckableText(f.foodName) })
+
+        val dialog = SaveRecipeDialog(
+            this@CreateRecipeFragment,
+            _checkableFoods)
+
+        dialog.show(requireActivity().supportFragmentManager, SaveRecipeDialog.TAG)
+    }
+
+    override fun onCreateFood(foodName: String) {
+        _checkableFoods.add(CheckableText(foodName))
+
         lifecycleScope.launch {
-            val dialog = SaveRecipeDialog(
-                this@CreateRecipeFragment,
-                foodRepository.getAll().map { f -> CheckableText(f.foodName) })
-            dialog.show(requireActivity().supportFragmentManager, SaveRecipeDialog.TAG)
+            _viewModel.createFood(foodName)
         }
     }
 
@@ -100,21 +122,17 @@ class CreateRecipeFragment : Fragment(), IItemClickListener, SaveRecipeDialog.IC
     ) {
         val recipe = Recipe(
             recipeName = recipeName,
-            creationDate = repository.dateTimeFormat.format(Date()),
+            creationDate = _viewModel.formatAsRecipesDateTime(Date()),
             description = "",
             cookingTime = cookingTime.toString(),
             image = image.toString()
         )
         recipe.steps = _steps
         recipe.convertStepsToDescription()
-        saveRecipe(recipe)
-        Navigation.findNavController(requireView()).navigate(R.id.nav_food_recipes_navToRecipes)
-    }
 
-    private fun saveRecipe(recipe: Recipe) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            repository.insertAll(recipe)
-        }
+        _viewModel.saveRecipe(foods, recipe)
+
+        Navigation.findNavController(requireView()).navigate(R.id.nav_food_recipes_navToRecipes)
     }
 
 }

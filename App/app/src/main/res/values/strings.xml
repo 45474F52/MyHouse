@@ -84,9 +84,14 @@
     <string name="menu_food_recipes_creation">Создание рецепта</string>
     <string name="cnt_descr_remove_recipe_step">Remove recipe step</string>
     <string name="cnt_descr_recipe_preview_image">Recipe preview image</string>
+    <string name="cnt_descr_check_food">Check food</string>
     <!-- Titles -->
     <string name="home_title">Выбирайте элементы для быстрой навигации</string>
     <string name="title_found_recipes">Можно приготовить</string>
     <string name="title_recommended_recipes">Рекомендуем</string>
-    <string name="cnt_descr_check_food">Check food</string>
+
+    <!-- Shortcuts Labels -->
+    <string name="sc_sh_shopping">Покупки</string>
+    <string name="sc_lg_shopping">Создать список покупок</string>
+    <string name="sc_dm_shopping">Покупки отключены</string>
 </resources>

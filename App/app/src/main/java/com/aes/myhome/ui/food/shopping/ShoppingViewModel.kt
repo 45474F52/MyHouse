@@ -28,28 +28,22 @@ class ShoppingViewModel(
     val count: LiveData<Int>
         get() = _count
 
-    fun loadProducts(listener: () -> Unit) {
-        if (_productsInternal.isEmpty()) {
-            viewModelScope.launch {
-                var data: List<Product>?
+    init {
+        viewModelScope.launch {
+            var data: List<Product>?
 
-                withContext(Dispatchers.IO) {
-                    data = serializer.deserialize("", "products.json")
-                }
-
-                if (data == null) {
-                    data = emptyList()
-                }
-
-                _productsInternal.addAll(data!!)
-                _products.value = _productsInternal
-
-                _count.value = _productsInternal.size
-                listener.invoke()
+            withContext(Dispatchers.IO) {
+                data = serializer.deserialize("", "products.json")
             }
-        }
-        else {
-            listener.invoke()
+
+            if (data == null) {
+                data = emptyList()
+            }
+
+            _productsInternal.addAll(data!!)
+            _products.value = _productsInternal
+
+            _count.value = _productsInternal.size
         }
     }
 

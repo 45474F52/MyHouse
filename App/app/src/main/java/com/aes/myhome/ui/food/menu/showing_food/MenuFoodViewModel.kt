@@ -133,7 +133,7 @@ class MenuFoodViewModel @Inject constructor(
         }
     }
 
-    fun updateRecipesWithFood() {
+    fun loadRecipesWithFood() {
         viewModelScope.launch(Dispatchers.IO) {
             _recipes.postValue(foodRepository.getFoodsWithRecipes())
         }

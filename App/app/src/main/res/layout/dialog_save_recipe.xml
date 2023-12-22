@@ -35,16 +35,53 @@
         android:layout_marginTop="10dp"
         android:clickable="true" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/used_recipes_list"
+    <LinearLayout
+        android:id="@+id/used_recipes_container"
         android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        android:minHeight="150dp"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginBottom="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/new_food_name_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="16dp"
+                android:layout_weight="1"
+                android:hint="Добавить..."
+                android:autofillHints="name"
+                android:inputType="textCapSentences" />
+
+            <ImageButton
+                android:id="@+id/add_food_to_recipe_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
+                android:backgroundTint="@android:color/transparent"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:src="@drawable/add"
+                android:contentDescription="Add Food" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/used_recipes_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginBottom="10dp">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
 
     <Button
         android:id="@+id/load_recipe_image_btn"

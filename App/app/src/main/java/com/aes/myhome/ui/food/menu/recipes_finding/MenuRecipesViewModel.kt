@@ -33,33 +33,8 @@ class MenuRecipesViewModel @Inject constructor(
 
     fun loadData(listener: () -> Unit) {
         viewModelScope.launch {
-//            val foundRecipes = mutableListOf<Recipe>()
-//            val recommendedRecipes = mutableListOf<Recipe>()
-//
-//            val allRecipes = recipeRepository.getAll()
-//            val allFoods = foodRepository.getAll()
-//            val allFoodNames = allFoods.map { food -> food.foodName.lowercase() }
-//
-//            // TODO: map foods in recipes
-//
-//            for (recipe in allRecipes) {
-//                if (recipe.description)
-//            }
-//
-//            for (food in allFoods) {
-//                val name = food.foodName.lowercase()
-//
-//                for (recipe in allRecipes) {
-//                    if (recipe.description.contains(name, true)) {
-//
-//                    }
-//                }
-//            }
-//
-//
-//            loadFoodWithRecipes()
-//
-//            findRecipes()
+            loadFoodWithRecipes()
+            //findRecipes()
 
             if (_foodWithRecipes.size <= 500) {
                 delay(3000L)

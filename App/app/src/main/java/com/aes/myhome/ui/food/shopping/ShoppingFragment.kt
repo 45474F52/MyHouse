@@ -52,8 +52,8 @@ class ShoppingFragment : Fragment(),
         val finishShoppingBtn: Button = binding.root.findViewById(R.id.finish_shopping_btn)
         val clearListBtn: Button = binding.root.findViewById(R.id.clear_list_btn)
 
-        _viewModel.loadProducts {
-            _adapter = ProductsAdapter(_viewModel.products.value!!)
+        _viewModel.products.observe(viewLifecycleOwner) { products ->
+            _adapter = ProductsAdapter(products)
 
             val recycler: RecyclerView = binding.root.findViewById(R.id.products_list)
             recycler.adapter = _adapter
@@ -62,7 +62,7 @@ class ShoppingFragment : Fragment(),
             ItemTouchHelper(ItemTouchCallback(
                 0,
                 ItemTouchHelper.RIGHT,
-                _viewModel.products.value!!,
+                products,
                 recycler,
                 this))
                 .attachToRecyclerView(recycler)
@@ -72,7 +72,7 @@ class ShoppingFragment : Fragment(),
             }
 
             clearListBtn.setOnClickListener {
-                val tmp = _viewModel.count.value!!
+                val tmp = products.size
                 _viewModel.clearProducts()
                 _adapter.notifyItemRangeRemoved(0, tmp)
             }

@@ -2,6 +2,7 @@ package com.aes.myhome.storage.database.repositories
 
 import com.aes.myhome.storage.database.daos.RecipeDAO
 import com.aes.myhome.storage.database.entities.Recipe
+import com.aes.myhome.storage.database.entities.RecipeFoodCrossRef
 import com.aes.myhome.storage.database.entities.RecipeWithFoods
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -23,6 +24,8 @@ class RecipeRepository @Inject constructor(private val recipeDAO: RecipeDAO) {
      * Возвращает все записи
      */
     suspend fun getAll() = recipeDAO.getAll()
+
+    suspend fun getLast() = recipeDAO.getLast()
 
     /**
      * Находит запись по Id
@@ -69,4 +72,7 @@ class RecipeRepository @Inject constructor(private val recipeDAO: RecipeDAO) {
         val all = getRecipesWithFoods()
         return all.first { rwf -> rwf.recipe.recipeId == recipeId }
     }
+
+    suspend fun insertCrossRefWithFood(crossRef: RecipeFoodCrossRef) =
+        recipeDAO.insertCrossRefWithFood(crossRef)
 }

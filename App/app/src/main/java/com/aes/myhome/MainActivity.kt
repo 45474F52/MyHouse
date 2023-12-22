@@ -8,12 +8,15 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.aes.myhome.databinding.ActivityMainBinding
+import com.aes.myhome.ui.food.shopping.ShoppingFragment
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,6 +60,12 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(_navController, _appBarConfiguration)
         navView.setupWithNavController(_navController)
+
+        when (intent.action) {
+            "com.aes.myhome.intent_action.display_fragment" -> {
+                _navController.navigate(intent.data!!)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

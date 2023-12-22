@@ -188,8 +188,10 @@ class MenuFoodFragment : Fragment(),
         _binding = null
     }
 
-    // TODO: fix invocation problem
+    private var _changedItemIndex = -1
     override fun onItemLongClick(index: Int) {
+        _changedItemIndex = index
+
         val item = _viewModel.food.value!![index]
 
         val dialog = EditFoodDialog.getInstance(this)
@@ -204,7 +206,11 @@ class MenuFoodFragment : Fragment(),
     }
 
     override fun onPositive(food: Food) {
-        _viewModel.update(food)
+        if (_changedItemIndex != -1) {
+            _viewModel.update(food)
+            _adapter.notifyItemChanged(_changedItemIndex)
+            _changedItemIndex = -1
+        }
     }
 
     override fun onDelete(index: Int, item: Food) {

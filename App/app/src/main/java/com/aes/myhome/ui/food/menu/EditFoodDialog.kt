@@ -72,17 +72,18 @@ class EditFoodDialog : DialogFragment(), DateTimePicker.OnDateTimePickListener {
             val proteinView: TextView = foodView.findViewById(R.id.food_protein_edit)
             val fatView: TextView = foodView.findViewById(R.id.food_fat_edit)
             val carbsView: TextView = foodView.findViewById(R.id.food_carbs_edit)
+            // TODO: Input calories from View
             val caloriesView: TextView = foodView.findViewById(R.id.food_calories_edit)
             val quantityView: TextView = foodView.findViewById(R.id.food_quantity_edit)
 
             foodNameView.text = _food.foodName
-            _useByDateView.text = getString(R.string.food_format_useByDate, _food.useByDate)
+            _useByDateView.text = _food.useByDate
             descriptionView.text = _food.description
-            proteinView.text = getString(R.string.food_format_protein, _food.protein)
-            fatView.text = getString(R.string.food_format_fat, _food.fat)
-            carbsView.text = getString(R.string.food_format_carbs, _food.carbs)
-            caloriesView.text = getString(R.string.food_format_calories, _food.calories)
-            quantityView.text = getString(R.string.food_format_quantity, _food.quantity)
+            proteinView.text = _food.protein.toString()
+            fatView.text = _food.fat.toString()
+            carbsView.text = _food.carbs.toString()
+            caloriesView.text = _food.calories.toString()
+            quantityView.text = _food.quantity.toString()
 
             _useByDateView.setOnClickListener {
                 _dateTimePicker.pick()

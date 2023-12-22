@@ -8,12 +8,16 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.aes.myhome.storage.database.entities.Recipe
+import com.aes.myhome.storage.database.entities.RecipeFoodCrossRef
 import com.aes.myhome.storage.database.entities.RecipeWithFoods
 
 @Dao
 interface RecipeDAO {
     @Query("SELECT * FROM Recipe")
     suspend fun getAll(): List<Recipe>
+
+    @Query("SELECT * FROM Recipe ORDER BY recipeId DESC LIMIT 1")
+    suspend fun getLast(): Recipe?
 
     @Query("SELECT * FROM Recipe WHERE recipeId = :id")
     suspend fun findById(id: Int) : Recipe?
@@ -36,4 +40,7 @@ interface RecipeDAO {
     @Transaction
     @Query("SELECT * FROM Recipe")
     suspend fun getRecipesWithFoods() : List<RecipeWithFoods>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCrossRefWithFood(crossRef: RecipeFoodCrossRef)
 }

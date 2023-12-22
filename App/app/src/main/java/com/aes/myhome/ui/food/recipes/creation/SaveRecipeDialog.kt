@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,6 +34,8 @@ class SaveRecipeDialog(
     private val _checkableItems = mutableListOf<CheckableText>()
 
     interface ICallbackReceiver : Serializable {
+        fun onCreateFood(foodName: String)
+
         fun onPositive(
             recipeName: String,
             cookingTime: Double,
@@ -58,10 +62,24 @@ class SaveRecipeDialog(
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+            val container: LinearLayout = dialogView.findViewById(R.id.used_recipes_container)
+
+            val foodName: EditText = dialogView.findViewById(R.id.new_food_name_edit)
+            val addFood: ImageButton = dialogView.findViewById(R.id.add_food_to_recipe_btn)
+            addFood.setOnClickListener {
+                if (foodName.text.isNotBlank()) {
+                    receiver.onCreateFood(foodName.text.toString())
+                    foodName.text.clear()
+                    foodName.clearFocus()
+                    adapter.notifyItemInserted(foods.size - 1)
+                    foods.last().toggle()
+                }
+            }
+
             val usedRecipesText: TextView = dialogView.findViewById(R.id.used_recipes_text)
             usedRecipesText.setOnClickListener {
                 _foodsVisible = !_foodsVisible
-                recyclerView.visibility = if (_foodsVisible) View.VISIBLE else View.GONE
+                container.visibility = if (_foodsVisible) View.VISIBLE else View.GONE
             }
 
             val recipeName: EditText = dialogView.findViewById(R.id.recipe_name_edit)

@@ -3,6 +3,7 @@ package com.aes.myhome.storage.database.repositories
 import com.aes.myhome.storage.database.daos.FoodDAO
 import com.aes.myhome.storage.database.entities.Food
 import com.aes.myhome.storage.database.entities.FoodWithRecipes
+import com.aes.myhome.storage.database.entities.RecipeFoodCrossRef
 import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
@@ -71,4 +72,7 @@ class FoodRepository @Inject constructor(
         val all = getFoodsWithRecipes()
         return all.first { fwr -> fwr.food.foodId == foodId }
     }
+
+    suspend fun insertCrossRefWithRecipe(crossRef: RecipeFoodCrossRef) =
+        foodDAO.insertCrossRefWithRecipe(crossRef)
 }

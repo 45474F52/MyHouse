@@ -34,11 +34,6 @@ class FoodAdapter(private val list: List<Food>, private val listener: IItemClick
         holder.carbsView.text = DIHandler.getResources().getString(R.string.food_format_carbs, food.carbs)
         holder.caloriesView.text = DIHandler.getResources().getString(R.string.food_format_calories, food.calories)
         holder.quantityView.text = DIHandler.getResources().getString(R.string.food_format_quantity, food.quantity)
-
-        holder.layout.setOnClickListener {
-            holder.container.visibility =
-                if (holder.container.visibility != View.VISIBLE) View.VISIBLE else View.GONE
-        }
     }
 
     override fun getItemCount(): Int {
@@ -46,6 +41,7 @@ class FoodAdapter(private val list: List<Food>, private val listener: IItemClick
     }
 
     inner class ViewHolder(foodView: View) : RecyclerView.ViewHolder(foodView),
+        View.OnClickListener,
         View.OnLongClickListener
     {
 
@@ -64,7 +60,10 @@ class FoodAdapter(private val list: List<Food>, private val listener: IItemClick
         val layout: LinearLayout = foodView.findViewById(R.id.item_food_layout)
 
         init {
-            foodView.setOnLongClickListener(this)
+            layout.isClickable = true
+            layout.isLongClickable = true
+            layout.setOnClickListener(this)
+            layout.setOnLongClickListener(this)
         }
 
         override fun onLongClick(v: View?): Boolean {
@@ -76,6 +75,11 @@ class FoodAdapter(private val list: List<Food>, private val listener: IItemClick
             }
 
             return false
+        }
+
+        override fun onClick(v: View?) {
+            container.visibility =
+                if (container.visibility != View.VISIBLE) View.VISIBLE else View.GONE
         }
 
     }

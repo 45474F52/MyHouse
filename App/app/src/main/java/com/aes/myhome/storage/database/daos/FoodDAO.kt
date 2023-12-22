@@ -9,6 +9,7 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.aes.myhome.storage.database.entities.Food
 import com.aes.myhome.storage.database.entities.FoodWithRecipes
+import com.aes.myhome.storage.database.entities.RecipeFoodCrossRef
 
 @Dao
 interface FoodDAO {
@@ -19,7 +20,7 @@ interface FoodDAO {
     suspend fun findById(id: Int) : Food?
 
     @Query("SELECT * FROM Food WHERE FoodName = :name LIMIT 1")
-    suspend fun findByName(name: String) : Food
+    suspend fun findByName(name: String): Food?
 
     @Query("SELECT * FROM Food WHERE FoodName LIKE :name")
     suspend fun getByName(name: String) : List<Food>
@@ -36,4 +37,7 @@ interface FoodDAO {
     @Transaction
     @Query("SELECT * FROM Food")
     suspend fun getFoodsWithRecipes() : List<FoodWithRecipes>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCrossRefWithRecipe(crossRef: RecipeFoodCrossRef)
 }
