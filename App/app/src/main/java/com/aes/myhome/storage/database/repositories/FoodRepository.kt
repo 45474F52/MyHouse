@@ -4,18 +4,17 @@ import com.aes.myhome.storage.database.daos.FoodDAO
 import com.aes.myhome.storage.database.entities.Food
 import com.aes.myhome.storage.database.entities.FoodWithRecipes
 import com.aes.myhome.storage.database.entities.RecipeFoodCrossRef
+import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import javax.inject.Inject
 
 class FoodRepository @Inject constructor(
     private val foodDAO: FoodDAO
 ) {
-    /**
-     * Формат даты и времени (dd.MM.yyyy hh:mm). Locale = ru-RU
-     */
-    val dateTimeFormat =
-        SimpleDateFormat("dd.MM.yyyy hh:mm", Locale.forLanguageTag("ru-RU"))
+
+    val dateTimeFormat: DateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
 
     /**
      * Возвращает количество записей

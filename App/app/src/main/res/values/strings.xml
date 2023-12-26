@@ -94,4 +94,7 @@
     <string name="sc_sh_shopping">Покупки</string>
     <string name="sc_lg_shopping">Создать список покупок</string>
     <string name="sc_dm_shopping">Покупки отключены</string>
+
+    <!-- Budget -->
+    <string name="budget_format_percent">%1$.1f%%</string>
 </resources>

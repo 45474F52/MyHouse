@@ -39,38 +39,38 @@
 
         <action
             android:id="@+id/action_fast_nav_to_schedule"
-            app:destination="@+id/nav_food_schedule"
+            app:destination="@+id/nav_tasks_schedule"
             app:popUpTo="@id/nav_home"
             app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_fast_nav_to_cases"
-            app:destination="@+id/nav_food_cases"
+            app:destination="@+id/nav_tasks_cases"
             app:popUpTo="@id/nav_home"
             app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_fast_nav_to_works"
-            app:destination="@+id/nav_food_works"
+            app:destination="@+id/nav_tasks_works"
             app:popUpTo="@id/nav_home"
             app:popUpToInclusive="true" />
 
 
         <action
             android:id="@+id/action_fast_nav_to_budget"
-            app:destination="@+id/nav_food_budget"
+            app:destination="@+id/nav_other_budget"
             app:popUpTo="@id/nav_home"
             app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_fast_nav_to_closet"
-            app:destination="@+id/nav_food_closet"
+            app:destination="@+id/nav_other_closet"
             app:popUpTo="@id/nav_home"
             app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_fast_nav_to_fun"
-            app:destination="@+id/nav_food_fun"
+            app:destination="@+id/nav_other_fun"
             app:popUpTo="@id/nav_home"
             app:popUpToInclusive="true" />
 

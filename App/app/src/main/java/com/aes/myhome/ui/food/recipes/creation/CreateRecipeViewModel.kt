@@ -40,7 +40,7 @@ class CreateRecipeViewModel @Inject constructor(
         }
     }
 
-    fun formatAsRecipesDateTime(date: Date): String = recipeRepository.dateTimeFormat.format(date)
+    fun formatAsRecipesDateTime(date: Date): String = recipeRepository.dateFormat.format(date)
 
     fun saveRecipe(foods: List<CheckableText>, recipe: Recipe) {
         viewModelScope.launch(Dispatchers.IO) {

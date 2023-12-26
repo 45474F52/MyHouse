@@ -87,7 +87,6 @@ dependencies {
 
     val roomVersion = "2.6.1"
 
-    // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
@@ -101,4 +100,8 @@ dependencies {
     // JSON SERIALIZER
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+
+    // CHARTS
+
+    implementation("com.github.AAChartModel:AAChartCore-Kotlin:-SNAPSHOT")
 }

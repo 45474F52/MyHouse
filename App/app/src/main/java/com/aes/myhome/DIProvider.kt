@@ -3,6 +3,7 @@ package com.aes.myhome
 import android.content.Context
 import androidx.room.Room
 import com.aes.myhome.storage.database.AppDatabase
+import com.aes.myhome.storage.json.JsonDataSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,6 +14,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DIProvider {
+
+    @Singleton
+    @Provides
+    fun provideSerializer(@ApplicationContext context: Context) =
+        JsonDataSerializer(context, JsonDataSerializer.StorageType.INTERNAL)
 
     @Singleton
     @Provides
