@@ -95,6 +95,7 @@ class BudgetFragment : Fragment(), FinancesChangeDialog.ICallbackReceiver {
         _budgetStatus = binding.budgetStatusTv
 
         _statisticsChart = binding.statisticsChart
+        _statisticsChart.isClearBackgroundColor = true
 
         val revenueBtn = binding.revenueBtn
         revenueBtn.setOnClickListener {
@@ -159,8 +160,10 @@ class BudgetFragment : Fragment(), FinancesChangeDialog.ICallbackReceiver {
         val previousDayBudget = _userFinances.getBudget(LocalDate.now().minusDays(1L))
         val percentChange = if (currentDayBudget == .0 && previousDayBudget == .0) {
             .0
-        } else {
+        } else if (previousDayBudget != .0) {
             ((currentDayBudget - previousDayBudget) / previousDayBudget * 100)
+        } else {
+            currentDayBudget
         }
 
         val drawable = if (percentChange < 0) {
@@ -170,7 +173,8 @@ class BudgetFragment : Fragment(), FinancesChangeDialog.ICallbackReceiver {
         }
 
         _budgetStatus.text = getString(R.string.budget_format_percent, percentChange.absoluteValue)
-        _budgetStatus.setCompoundDrawables(
+        //_budgetStatus.setCompoundDrawablesWithIntrinsicBounds
+        _budgetStatus.setCompoundDrawablesWithIntrinsicBounds(
             null,
             null,
             drawable,
@@ -179,12 +183,12 @@ class BudgetFragment : Fragment(), FinancesChangeDialog.ICallbackReceiver {
 
     override fun onNumberFormatExceptionOccurred() {
         _hasError = true
-        createSnackbar("Нет изменений. Сумма была введена не верно")
+        createSnackbar(getString(R.string.budget_error_summa))
     }
 
     override fun onDateNotSet() {
         _hasError = true
-        createSnackbar("Нет изменений. Дата не была выбрана")
+        createSnackbar(getString(R.string.budget_error_date))
     }
 
     private fun createSnackbar(message: String) {
@@ -202,10 +206,14 @@ class BudgetFragment : Fragment(), FinancesChangeDialog.ICallbackReceiver {
         _budgetSumma.text = str
     }
 
+    private fun getCategories(formatter: DateTimeFormatter): Array<String> {
+        return _seriesDates.map { formatter.format(it) }.toTypedArray()
+    }
+
     private fun updateStatisticsChart() {
         if (_statisticsType == StatisticsType.FOR_WEEK) {
             _statisticsType = StatisticsType.FOR_MONTH
-            _statisticsViewBtn.text = "За месяц"
+            _statisticsViewBtn.text = getString(R.string.budget_statistics_forMonth)
 
             if (_hasMonthChanges) {
                 val startDate = LocalDate.now().withDayOfMonth(1)
@@ -213,7 +221,7 @@ class BudgetFragment : Fragment(), FinancesChangeDialog.ICallbackReceiver {
 
                 _monthModel
                     .series(getSeries(startDate, endDate, 30))
-                    .categories(getCategories(startDate, endDate, _monthFormatter))
+                    .categories(getCategories(_monthFormatter))
 
                 _hasMonthChanges = false
             }
@@ -221,7 +229,7 @@ class BudgetFragment : Fragment(), FinancesChangeDialog.ICallbackReceiver {
             _statisticsChart.aa_drawChartWithChartModel(_monthModel)
         } else {
             _statisticsType = StatisticsType.FOR_WEEK
-            _statisticsViewBtn.text = "За неделю"
+            _statisticsViewBtn.text = getString(R.string.budget_statistics_forWeek)
 
             if (_hasWeekChanges) {
                 val now = ZonedDateTime.now()
@@ -231,7 +239,7 @@ class BudgetFragment : Fragment(), FinancesChangeDialog.ICallbackReceiver {
 
                 _weekModel
                     .series(getSeries(startDate, endDate, 7))
-                    .categories(getCategories(startDate, endDate, _weekFormatter))
+                    .categories(getCategories(_weekFormatter))
 
                 _hasWeekChanges = false
             }
@@ -240,15 +248,7 @@ class BudgetFragment : Fragment(), FinancesChangeDialog.ICallbackReceiver {
         }
     }
 
-    private fun getCategories(
-        startDate: LocalDate,
-        endDate: LocalDate,
-        formatter: DateTimeFormatter
-    ): Array<String> {
-        return getDatesBetween(startDate, endDate)
-            .map { formatter.format(it) }.toTypedArray()
-    }
-
+    private val _seriesDates = mutableListOf<LocalDate>()
     private fun getSeries(startDate: LocalDate, endDate: LocalDate, limit: Int ): Array<Any> {
         val revenues = selectFinanceUnits(
             _userFinances.revenues,
@@ -262,13 +262,15 @@ class BudgetFragment : Fragment(), FinancesChangeDialog.ICallbackReceiver {
 
         val (revenuesList, expensesList) = supplementLists(revenues, expenses, getDatesBetween(startDate, endDate))
 
+        _seriesDates.addAll(revenuesList.map { it.date.toLocalDate() })
+
         val revenuesSeries = AASeriesElement()
-            .name("Revenues")
+            .name(getString(R.string.budget_category_revenues))
             .color("#00FF00")
             .data(revenuesList.map { it.money }.toTypedArray())
 
         val expensesSeries = AASeriesElement()
-            .name("Expenses")
+            .name(getString(R.string.budget_category_expenses))
             .color("#FF0000")
             .data(expensesList.map { it.money }.toTypedArray())
 

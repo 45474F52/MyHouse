@@ -88,7 +88,8 @@ class SaveRecipeDialog(
             val image: ImageView = dialogView.findViewById(R.id.recipe_preview_image_iv)
             var path: Uri = Uri.EMPTY
 
-            val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            val pickMedia =
+                registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
                     path = uri
                     image.setImageURI(uri)
@@ -96,7 +97,8 @@ class SaveRecipeDialog(
             }
 
             loadImageBtn.setOnClickListener {
-                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                pickMedia.launch(
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
 
             posBtn.setOnClickListener {
@@ -105,7 +107,7 @@ class SaveRecipeDialog(
 
                 if (name.isBlank()) {
                     recipeName.setError(
-                        "Название не может быть пустым",
+                        getString(R.string.error_empty_name),
                         AppCompatResources.getDrawable(requireContext(), R.drawable.error))
                     recipeName.requestFocus()
                     return@setOnClickListener
@@ -113,7 +115,7 @@ class SaveRecipeDialog(
 
                 if (time == null || time < .0) {
                     cookingTime.setError(
-                        "Время приготовления не может быть отрицательным",
+                        getString(R.string.error_timeFormat),
                         AppCompatResources.getDrawable(requireContext(), R.drawable.error))
                     cookingTime.requestFocus()
                     return@setOnClickListener
@@ -129,7 +131,7 @@ class SaveRecipeDialog(
 
             builder
                 .setView(dialogView)
-                .setTitle("Сохранение рецепта")
+                .setTitle(getString(R.string.dialog_saveRecipe_title))
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }
@@ -142,8 +144,7 @@ class SaveRecipeDialog(
 
         if (item.isChecked()) {
             _checkableItems.add(item)
-        }
-        else {
+        } else {
             _checkableItems.remove(item)
         }
     }

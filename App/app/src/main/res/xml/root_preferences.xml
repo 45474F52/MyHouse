@@ -1,5 +1,25 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory app:title="@string/user_preferences_title">
+        <SwitchPreferenceCompat
+            app:key="sync_theme"
+            app:title="@string/sync_theme_title" />
+
+        <SwitchPreferenceCompat
+            app:dependency="sync_theme"
+            app:key="attachment_theme"
+            app:summaryOn="@string/sync_attachment_theme_summary_on"
+            app:summaryOff="@string/sync_attachment_theme_summary_off"
+            app:title="@string/sync_attachment_theme_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="DEBUG">
+        <Preference
+            app:key="DEBUG_budget_drop"
+            app:title="DROP BUDGET"
+            app:summary="Drops budget data" />
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/messages_header">
 
         <EditTextPreference
@@ -14,21 +34,6 @@
             app:key="reply"
             app:title="@string/reply_title"
             app:useSimpleSummaryProvider="true" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/sync_header">
-
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
 
     </PreferenceCategory>
 

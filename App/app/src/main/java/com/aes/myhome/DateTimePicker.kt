@@ -8,12 +8,10 @@ import android.content.Context
 import android.widget.DatePicker
 import android.widget.TimePicker
 import java.util.Calendar
-import java.util.Locale
 
 class DateTimePicker(
     private val getContext: () -> Context,
     private val listener: OnDateTimePickListener,
-    private val locale: Locale = Locale.forLanguageTag("ru-RU"),
     private val is24HourView: Boolean = true)
     : OnDateSetListener, OnTimeSetListener {
 
@@ -41,7 +39,7 @@ class DateTimePicker(
     }
 
     private fun setCurrentDateTime() {
-        val calendar = Calendar.getInstance(locale)
+        val calendar = Calendar.getInstance()
 
         _day = calendar.get(Calendar.DAY_OF_MONTH)
         _month = calendar.get(Calendar.MONTH)

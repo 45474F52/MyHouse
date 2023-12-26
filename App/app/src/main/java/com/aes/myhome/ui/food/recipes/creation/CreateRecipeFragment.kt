@@ -19,11 +19,8 @@ import com.aes.myhome.databinding.FragmentCreateRecipeBinding
 import com.aes.myhome.objects.CheckableText
 import com.aes.myhome.storage.database.entities.Food
 import com.aes.myhome.storage.database.entities.Recipe
-import com.aes.myhome.storage.database.entities.RecipeFoodCrossRef
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.Date
 
 @AndroidEntryPoint

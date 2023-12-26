@@ -19,8 +19,7 @@ import javax.inject.Inject
 class MenuRecipesViewModel @Inject constructor(
     private val foodRepository: FoodRepository,
     private val recipeRepository: RecipeRepository
-) : ViewModel()
-{
+) : ViewModel() {
     private val _foodWithRecipes = mutableListOf<FoodWithRecipes>()
 
     private val _foundRecipes = MutableLiveData<List<Recipe>>()

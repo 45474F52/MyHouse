@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aes.myhome.DIHandler
 import com.aes.myhome.objects.finances.UserFinances
 import com.aes.myhome.storage.json.JsonDataSerializer
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +17,10 @@ class BudgetViewModel @Inject constructor(
     private val serializer: JsonDataSerializer
 ) : ViewModel() {
 
+    private companion object {
+        private const val FILE_NAME = "finances.json"
+    }
+
     private val _userFinances = MutableLiveData<UserFinances>()
 
     val userFinances: LiveData<UserFinances>
@@ -28,7 +31,7 @@ class BudgetViewModel @Inject constructor(
             var data: UserFinances?
 
             withContext(Dispatchers.IO) {
-                data = serializer.deserialize("", "finances.json")
+                data = serializer.deserialize("", FILE_NAME)
             }
 
             withContext(Dispatchers.Main) {
@@ -44,7 +47,7 @@ class BudgetViewModel @Inject constructor(
 
     fun saveData() {
         viewModelScope.launch(Dispatchers.IO) {
-            serializer.serialize(_userFinances.value, "", "finances.json")
+            serializer.serialize(_userFinances.value, "", FILE_NAME)
         }
     }
 }

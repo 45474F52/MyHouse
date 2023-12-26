@@ -1,30 +1,23 @@
 package com.aes.myhome.storage.json
 
 import android.content.Context
-import android.os.Environment
-import android.os.storage.StorageManager
-import android.util.JsonWriter
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.PrintWriter
 
 class JsonDataSerializer(private val context: Context, private val storage: StorageType) {
 
-    private fun isExternalStorageWritable(): Boolean {
-        return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
-    }
+//    private fun isExternalStorageWritable(): Boolean {
+//        return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
+//    }
+//
+//    private fun isExternalStorageReadable(): Boolean {
+//        return Environment.getExternalStorageState() in
+//                setOf(Environment.MEDIA_MOUNTED, Environment.MEDIA_MOUNTED_READ_ONLY)
+//    }
 
-    private fun isExternalStorageReadable(): Boolean {
-        return Environment.getExternalStorageState() in
-                setOf(Environment.MEDIA_MOUNTED, Environment.MEDIA_MOUNTED_READ_ONLY)
-    }
-
-    private fun isExternalStorageAvailable() : Boolean {
-        return isExternalStorageWritable() && isExternalStorageReadable()
-    }
+//    private fun isExternalStorageAvailable() : Boolean {
+//        return isExternalStorageWritable() && isExternalStorageReadable()
+//    }
 
     fun writeData(json: String, directory: String, fileName: String) {
         if (storage == StorageType.INTERNAL) {
@@ -32,51 +25,51 @@ class JsonDataSerializer(private val context: Context, private val storage: Stor
                 it.write(json.toByteArray())
             }
         }
-        else {
-            if (isExternalStorageAvailable()) {
-                //val dir = File(context.getExternalFilesDir(null), fileName)
-
-                val sdMain = File(Environment
-                        .getExternalStorageDirectory()
-                        .path + "/" + directory)
-
-                var success = true
-
-                if (!sdMain.exists()) {
-                    success = sdMain.mkdir()
-                }
-
-                if (success) {
-                    val sd = File(fileName)
-
-                    if (!sd.exists()) {
-                        success = sd.mkdir()
-                    }
-
-                    if (success) {
-                        val dest = File(sd, fileName)
-
-                        try {
-                            PrintWriter(dest).use {
-                                    out -> out.print(json)
-                            }
-                        }
-                        catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-                    else {
-                        throw Exception("File not created")
-                    }
-                }
-                else {
-                    throw Exception("Directory not created")
-                }
-            }
-            else {
-                throw Exception("Access denied for external storage")
-            }
-        }
+//        else {
+//            if (isExternalStorageAvailable()) {
+//                //val dir = File(context.getExternalFilesDir(null), fileName)
+//
+//                val sdMain = File(Environment
+//                        .getExternalStorageDirectory()
+//                        .path + "/" + directory)
+//
+//                var success = true
+//
+//                if (!sdMain.exists()) {
+//                    success = sdMain.mkdir()
+//                }
+//
+//                if (success) {
+//                    val sd = File(fileName)
+//
+//                    if (!sd.exists()) {
+//                        success = sd.mkdir()
+//                    }
+//
+//                    if (success) {
+//                        val dest = File(sd, fileName)
+//
+//                        try {
+//                            PrintWriter(dest).use {
+//                                    out -> out.print(json)
+//                            }
+//                        }
+//                        catch (e: Exception) {
+//                            e.printStackTrace()
+//                        }
+//                    }
+//                    else {
+//                        throw Exception("File not created")
+//                    }
+//                }
+//                else {
+//                    throw Exception("Directory not created")
+//                }
+//            }
+//            else {
+//                throw Exception("Access denied for external storage")
+//            }
+//        }
     }
 
     fun readData(directory: String, fileName: String) : String {

@@ -27,9 +27,6 @@ class Queue<T> : AbstractQueue<T>() {
     }
 
     override fun peek(): T? {
-        if (_elements.isEmpty()) {
-            return null
-        }
-        return _elements[0]
+        return _elements.getOrNull(0)
     }
 }

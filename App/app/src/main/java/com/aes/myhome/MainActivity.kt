@@ -3,29 +3,29 @@ package com.aes.myhome
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
-import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
+import androidx.preference.SwitchPreferenceCompat
 import com.aes.myhome.databinding.ActivityMainBinding
-import com.aes.myhome.ui.food.shopping.ShoppingFragment
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.DateFormat
-import java.util.Date
-import java.util.Locale
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    companion object Intents {
+        const val DISPLAY_FRAGMENT = "com.aes.myhome.intent_action.display_fragment"
+    }
 
     private lateinit var _appBarConfiguration: AppBarConfiguration
     private lateinit var _navController: NavController
@@ -65,8 +65,21 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(_navController, _appBarConfiguration)
         navView.setupWithNavController(_navController)
 
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this).all
+        preferences["sync_theme"]?.let { sync ->
+            if (sync == true) {
+                preferences["attachment_theme"]?.let { attachment ->
+                    if (attachment == true) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    }
+                }
+            }
+        }
+
         when (intent.action) {
-            "com.aes.myhome.intent_action.display_fragment" -> {
+            DISPLAY_FRAGMENT -> {
                 _navController.navigate(intent.data!!)
             }
         }

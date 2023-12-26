@@ -39,8 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="Milk" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/food_useByDate_text"
@@ -48,8 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:textStyle="italic"
-                    android:textSize="20sp"
-                    android:text="@string/food_format_useByDate" />
+                    android:textSize="20sp"/>
 
             </LinearLayout>
 
@@ -59,8 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="10dp"
-                android:textSize="16sp"
-                android:text="2 liters" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/food_quantity_text"
@@ -69,8 +66,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:gravity="end"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="@string/food_format_quantity" />
+                android:textStyle="bold" />
 
         </LinearLayout>
 

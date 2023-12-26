@@ -1,15 +1,14 @@
 package com.aes.myhome.ui.food.recipes
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +21,6 @@ import com.aes.myhome.databinding.FragmentRecipesBinding
 import com.aes.myhome.storage.database.entities.Recipe
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Locale
 
 @AndroidEntryPoint
 class RecipesFragment : Fragment(),
@@ -48,7 +46,8 @@ class RecipesFragment : Fragment(),
         _binding = FragmentRecipesBinding.inflate(inflater, container, false)
 
         _viewModel = ViewModelProvider(this)[RecipesViewModel::class.java]
-        _viewModel.loadRecipes {
+
+        _viewModel.recipesLoaded.observe(viewLifecycleOwner) {
             _filteredRecipes.clear()
             _filteredRecipes.addAll(_viewModel.recipes.value!!)
 
@@ -64,7 +63,8 @@ class RecipesFragment : Fragment(),
                     swipeDirs = ItemTouchHelper.RIGHT,
                     list = _filteredRecipes,
                     recycler = recycler,
-                    this
+                    this,
+                    getString(R.string.action_undo)
                 )
             ).attachToRecyclerView(recycler)
         }
@@ -139,11 +139,11 @@ class RecipesFragment : Fragment(),
     override fun onQueryTextSubmit(query: String?): Boolean {
         _filteredRecipes.clear()
 
-        if (!query.isNullOrBlank()) {
-            val filter = query.trim().lowercase(Locale("ru-RU"))
+        if (query.isNullOrBlank().not()) {
+            val filter = query!!.trim().lowercase()
 
             for (recipe in _viewModel.recipes.value!!) {
-                if (recipe.recipeName.lowercase(Locale("ru-RU")).contains(filter)) {
+                if (recipe.recipeName.lowercase().contains(filter)) {
                     _filteredRecipes.add(recipe)
                 }
             }

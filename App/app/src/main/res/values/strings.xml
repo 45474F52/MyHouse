@@ -9,19 +9,38 @@
     <string name="action_help">Help</string>
 
     <!-- Preference Titles -->
+    <string name="user_preferences_title">Ваши предпочтения</string>
     <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
 
     <!-- Messages Preferences -->
     <string name="signature_title">Your signature</string>
     <string name="reply_title">Default reply action</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="sync_theme_title">Не использовать системную тему</string>
+    <string name="sync_attachment_theme_title">Выбрать тему</string>
+    <string name="sync_attachment_theme_summary_off">Использовать светлую тему</string>
+    <string name="sync_attachment_theme_summary_on">Использовать тёмную тему</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_finance_title_revenue">Какие Ваши доходы?</string>
+    <string name="dialog_finance_title_expense">Какие Ваши расходы?</string>
+    <string name="dialog_finance_message_revenue">Напишите о том, какой у вас был доход и выберите дату</string>
+    <string name="dialog_finance_message_expense">Напишите о том, сколько составили ваши расходы и выберите дату</string>
+    <string name="dialog_fastView_title">Выбор элемента</string>
+    <string name="dialog_sendProducts_title">Добавить купленные продукты в список?</string>
+    <string name="dialog_sendProducts_message">Это позволит отслеживать их срок годности, а так же создавать с ними рецепты</string>
+    <string name="dialog_editFood_message">Отредактируйте нужные поля ниже</string>
+    <string name="dialog_saveRecipe_title">Сохранение рецепта</string>
+
+    <!-- Tooltips -->
+    <string name="tooltip_budget_percent">Отображает изменение текущего бюджета по отношению к вчерашнему</string>
+
+    <!-- Errors -->
+    <string name="error_empty_name">Название не может быть пустым</string>
+    <string name="error_empty_useByDate">Срок годности не может быть пустым</string>
+    <string name="error_numberFormat">Число записано не верно</string>
+    <string name="error_timeFormat">Время приготовления не может быть отрицательным</string>
 
     <!-- Menu -->
     <string name="menu_home">Home</string>
@@ -47,7 +66,6 @@
     <string name="food_format_carbs">На 100 г. — %1$.1f г. углеводов</string>
     <string name="food_format_calories">%1$.1f ккал.</string>
     <string name="food_format_quantity">Количество: %1$d</string>
-    <string name="food_format_date_edit">%1$d.%2$d.%3$d %4$d:%5$d</string>
 
     <!-- Recipe Showing -->
     <string name="recipe_format_time">%1$.1f мин.</string>
@@ -56,6 +74,8 @@
     <!--    Auto extract    -->
 
     <!-- Actions -->
+    <string name="action_plus_icon">+</string>
+    <string name="action_minus_icon">–</string>
     <string name="action_close">Close</string>
     <string name="action_save">Сохранить</string>
     <string name="action_add">Добавить</string>
@@ -66,6 +86,11 @@
     <string name="action_load_image">Загрузить изображение</string>
     <string name="action_cancel">Отменить</string>
     <string name="action_add_recipe">Добавить рецепт</string>
+    <string name="action_apply">Применить</string>
+    <string name="action_yes">Да</string>
+    <string name="action_no">Нет</string>
+    <string name="action_undo">Отменить</string>
+    <string name="action_toDo">Сделать</string>
     <!-- Hints -->
     <string name="hint_item_name">Название:</string>
     <string name="hint_select_useByDate">Выбрать срок годности</string>
@@ -79,6 +104,8 @@
     <string name="hint_cookingTime">Время готовки (в минутах):</string>
     <string name="hint_search_recipe">Поиск рецепта</string>
     <string name="hint_used_products"><u>Используемые продукты:</u></string>
+    <string name="hint_finance_summa">Сумма...</string>
+    <string name="hint_select_date">Выбрать дату</string>
     <!-- Content Description -->
     <string name="cnt_descr_mark_recipe_step">Mark recipe step</string>
     <string name="menu_food_recipes_creation">Создание рецепта</string>
@@ -97,4 +124,12 @@
 
     <!-- Budget -->
     <string name="budget_format_percent">%1$.1f%%</string>
+    <string name="budget_error_summa">Нет изменений. Сумма была введена не верно</string>
+    <string name="budget_error_date">Нет изменений. Дата не была выбрана</string>
+    <string name="budget_statistics_title">Статистика</string>
+    <string name="budget_statistics_forWeek">За неделю</string>
+    <string name="budget_statistics_forMonth">За месяц</string>
+    <string name="budget_category_revenues">Доходы</string>
+    <string name="budget_category_expenses">Расходы</string>
+    <string name="budget_snackbar_action">Сделайте правки в бюджете после покупки</string>
 </resources>

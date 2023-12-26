@@ -8,23 +8,22 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.aes.myhome.R
 import com.aes.myhome.databinding.FragmentHomeBinding
+import com.aes.myhome.objects.CardsMap
 import com.aes.myhome.storage.json.JsonDataSerializer
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.Serializable
 
+@AndroidEntryPoint
 class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
-
-    private val _fileName = "fast_views.json"
-
-    @Serializable
-    private data class CardsMap(var number: Int, var resourceId: Int, var title: String)
-
-    private lateinit var _serializer: JsonDataSerializer
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var _viewModel: HomeViewModel
 
     private lateinit var _array: TypedArray
 
@@ -39,20 +38,15 @@ class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
 
     private var _clickedCardNumber = 0
 
-    private var _cardsMap = arrayListOf<CardsMap>()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         _array = resources.obtainTypedArray(R.array.fast_views_values)
-
-        _serializer = JsonDataSerializer(requireContext(), JsonDataSerializer.StorageType.INTERNAL)
-
-        _cardsMap = _serializer.deserialize("", _fileName) ?: arrayListOf()
 
         _titleText = binding.root.findViewById(R.id.home_title_tv)
 
@@ -63,35 +57,35 @@ class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
 
         _clearBtn = binding.root.findViewById(R.id.home_clear_btn)
 
-        if (_cardsMap.size >= 1) {
-            _titleText.visibility = View.GONE
+        _viewModel.cardsMap.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                _titleText.visibility = View.GONE
 
-            _firstBtn.text = _cardsMap[0].title
+                _firstBtn.text = it[0].title
 
-            if (_cardsMap.size >= 2) {
-                _secondBtn.text = _cardsMap[1].title
+                if (it.size >= 2) {
+                    _secondBtn.text = it[1].title
 
-                if (_cardsMap.size >= 3) {
-                    _thirdBtn.text = _cardsMap[2].title
+                    if (it.size >= 3) {
+                        _thirdBtn.text = it[2].title
 
-                    if (_cardsMap.size >= 4) {
-                        _fourthBtn.text = _cardsMap[3].title
+                        if (it.size >= 4) {
+                            _fourthBtn.text = it[3].title
+                        }
                     }
                 }
+            } else {
+                _clearBtn.visibility = View.GONE
             }
-        }
-        else {
-            _clearBtn.visibility = View.GONE
         }
 
         _firstBtn.setOnClickListener {
             _clickedCardNumber = 1
 
-            if (_cardsMap.size >= _clickedCardNumber) {
-                val id = _cardsMap[0].resourceId
+            if (_viewModel.cardsMap.value!!.size >= _clickedCardNumber) {
+                val id = _viewModel.cardsMap.value!![0].resourceId
                 navigateTo(id)
-            }
-            else {
+            } else {
                 showChooseDialog()
             }
         }
@@ -99,11 +93,10 @@ class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
         _secondBtn.setOnClickListener {
             _clickedCardNumber = 2
 
-            if (_cardsMap.size >= _clickedCardNumber) {
-                val id = _cardsMap[_clickedCardNumber - 1].resourceId
+            if (_viewModel.cardsMap.value!!.size >= _clickedCardNumber) {
+                val id = _viewModel.cardsMap.value!![_clickedCardNumber - 1].resourceId
                 navigateTo(id)
-            }
-            else {
+            } else {
                 showChooseDialog()
             }
         }
@@ -111,11 +104,10 @@ class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
         _thirdBtn.setOnClickListener {
             _clickedCardNumber = 3
 
-            if (_cardsMap.size >= _clickedCardNumber) {
-                val id = _cardsMap[_clickedCardNumber - 1].resourceId
+            if (_viewModel.cardsMap.value!!.size >= _clickedCardNumber) {
+                val id = _viewModel.cardsMap.value!![_clickedCardNumber - 1].resourceId
                 navigateTo(id)
-            }
-            else {
+            } else {
                 showChooseDialog()
             }
         }
@@ -123,11 +115,10 @@ class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
         _fourthBtn.setOnClickListener {
             _clickedCardNumber = 4
 
-            if (_cardsMap.size >= _clickedCardNumber) {
-                val id = _cardsMap[_clickedCardNumber - 1].resourceId
+            if (_viewModel.cardsMap.value!!.size >= _clickedCardNumber) {
+                val id = _viewModel.cardsMap.value!![_clickedCardNumber - 1].resourceId
                 navigateTo(id)
-            }
-            else {
+            } else {
                 showChooseDialog()
             }
         }
@@ -140,8 +131,8 @@ class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
             _secondBtn.text = ""
             _thirdBtn.text = ""
             _fourthBtn.text = ""
-            _cardsMap.clear()
-            serializeMap()
+            _viewModel.clear()
+            _viewModel.save()
         }
 
         return binding.root
@@ -168,8 +159,8 @@ class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
             _clearBtn.visibility = View.VISIBLE
         }
 
-        _cardsMap.add(CardsMap(_clickedCardNumber, id, title))
-        serializeMap()
+        _viewModel.add(CardsMap(_clickedCardNumber, id, title))
+        _viewModel.save()
     }
 
     private fun showChooseDialog() {
@@ -179,9 +170,5 @@ class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
 
     private fun navigateTo(id: Int) {
         Navigation.findNavController(requireView()).navigate(id)
-    }
-
-    private fun serializeMap() {
-        _serializer.serialize(_cardsMap, "", _fileName)
     }
 }

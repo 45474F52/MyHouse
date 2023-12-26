@@ -73,19 +73,19 @@ class FinancesChangeDialog(
             val message: String
 
             if (isRevenue) {
-                title = "Какие Ваши доходы?"
-                message = "Напишите о том, какой у вас был доход и выберите дату"
+                title = getString(R.string.dialog_finance_title_revenue)
+                message = getString(R.string.dialog_finance_message_revenue)
             }
             else {
-                title = "Какие Ваши расходы?"
-                message = "Напишите о том, сколько составили ваши расходы и выберите дату"
+                title = getString(R.string.dialog_finance_title_expense)
+                message = getString(R.string.dialog_finance_message_expense)
             }
 
             builder
                 .setView(dialogView)
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton("Применить") { _, _ ->
+                .setPositiveButton(getString(R.string.action_apply)) { _, _ ->
                     date = _dateView.text.toString()
 
                     if (date.isBlank()) {
@@ -106,7 +106,7 @@ class FinancesChangeDialog(
 
                     receiver.onPostFinanceData(summa, date)
                 }
-                .setNegativeButton("Отменить") { _, _ -> }
+                .setNegativeButton(getString(R.string.action_cancel)) { _, _ -> }
 
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")

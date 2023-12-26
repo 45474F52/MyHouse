@@ -23,9 +23,10 @@ import com.aes.myhome.databinding.FragmentMenuFoodBinding
 import com.aes.myhome.storage.database.entities.Food
 import com.aes.myhome.ui.food.menu.EditFoodDialog
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.Locale
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
+import java.time.format.FormatStyle
 import kotlin.NumberFormatException
 
 @AndroidEntryPoint
@@ -66,7 +67,8 @@ class MenuFoodFragment : Fragment(),
                     swipeDirs = ItemTouchHelper.RIGHT,
                     list = _viewModel.food.value!!,
                     recycler = recycler,
-                    this)
+                    this,
+                    getString(R.string.action_undo))
             ).attachToRecyclerView(recycler)
         }
 
@@ -89,16 +91,16 @@ class MenuFoodFragment : Fragment(),
             val name = nameTextEditor.text.toString()
             if (name.isBlank()) {
                 nameTextEditor.setError(
-                    "Название не может быть пустым",
+                    getString(R.string.error_empty_name),
                     AppCompatResources.getDrawable(requireContext(), R.drawable.error))
                 nameTextEditor.requestFocus()
                 return@setOnClickListener
             }
 
             val useByDate = _pickDateTimeClicker.text.toString()
-            if (!useByDate.isDateTime()) {
+            if (useByDate.isLocalDateTime().not()) {
                 _pickDateTimeClicker.setError(
-                    "Срок годности не может быть пустым",
+                    getString(R.string.error_empty_useByDate),
                     AppCompatResources.getDrawable(requireContext(), R.drawable.error)
                 )
                 _pickDateTimeClicker.requestFocus()
@@ -128,7 +130,7 @@ class MenuFoodFragment : Fragment(),
             }
             catch (_: NumberFormatException) {
                 quantityTextEditor.setError(
-                    "Число записано не верно",
+                    getString(R.string.error_numberFormat),
                     AppCompatResources.getDrawable(requireContext(), R.drawable.error)
                 )
                 quantityTextEditor.requestFocus()
@@ -202,7 +204,9 @@ class MenuFoodFragment : Fragment(),
     override fun onItemClick(index: Int) { }
 
     override fun onDateTimePicked(day: Int, month: Int, year: Int, hour: Int, minute: Int) {
-        _pickDateTimeClicker.text = getString(R.string.food_format_date_edit, day, month, year, hour, minute)
+        val dateTime = LocalDateTime.of(year, month, day, hour, minute)
+        val str = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).format(dateTime)
+        _pickDateTimeClicker.text = str
     }
 
     override fun onPositive(food: Food) {
@@ -227,12 +231,13 @@ class MenuFoodFragment : Fragment(),
         _viewModel.confirmDeletion(item)
     }
 
-    private fun String.isDateTime(): Boolean {
+    private fun String.isLocalDateTime(): Boolean {
         return try {
-            SimpleDateFormat("dd.MM.yyyy hh:mm", Locale.forLanguageTag("ru-RU"))
-                .parse(this)
+            LocalDateTime.parse(
+                this,
+                DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT))
             true
-        } catch (_: ParseException) {
+        } catch (_: DateTimeParseException) {
             false
         }
     }
@@ -247,7 +252,7 @@ class MenuFoodFragment : Fragment(),
             }
             catch (_: NumberFormatException) {
                 wrapper.editor.setError(
-                    "Число записано не верно",
+                    getString(R.string.error_numberFormat),
                     AppCompatResources.getDrawable(requireContext(), R.drawable.error)
                 )
                 wrapper.editor.requestFocus()

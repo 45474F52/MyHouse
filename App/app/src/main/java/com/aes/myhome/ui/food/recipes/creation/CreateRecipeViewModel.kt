@@ -36,7 +36,9 @@ class CreateRecipeViewModel @Inject constructor(
                 data.addAll(foodRepository.getAll())
             }
 
-            _foods.value = data
+            withContext(Dispatchers.Main) {
+                _foods.value = data
+            }
         }
     }
 

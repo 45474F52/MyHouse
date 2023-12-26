@@ -95,6 +95,10 @@
 
         <deepLink
             app:uri="App://food.shopping" />
+
+        <action
+            android:id="@+id/nav_food_shopping_navToBudget"
+            app:destination="@+id/nav_other_budget" />
     </fragment>
 
     <fragment

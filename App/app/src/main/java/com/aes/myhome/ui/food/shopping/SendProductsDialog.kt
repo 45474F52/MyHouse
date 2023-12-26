@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
+import com.aes.myhome.R
 import java.io.Serializable
 
 class SendProductsDialog : DialogFragment() {
@@ -39,12 +40,12 @@ class SendProductsDialog : DialogFragment() {
             val builder = AlertDialog.Builder(it)
 
             builder
-                .setTitle("Добавить купленные продукты в список?")
-                .setMessage("Это позволит отслеживать их срок годности, а так же создавать с ними рецепты")
-                .setPositiveButton("Да") { _, _ ->
+                .setTitle(getString(R.string.dialog_sendProducts_title))
+                .setMessage(getString(R.string.dialog_sendProducts_message))
+                .setPositiveButton(getString(R.string.action_yes)) { _, _ ->
                     _receiver.onPositive()
                 }
-                .setNegativeButton("Нет") { _, _ ->
+                .setNegativeButton(getString(R.string.action_no)) { _, _ ->
                     _receiver.onNegative()
                 }
             builder.create()

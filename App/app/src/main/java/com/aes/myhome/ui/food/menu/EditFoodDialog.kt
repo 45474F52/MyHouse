@@ -1,24 +1,18 @@
 package com.aes.myhome.ui.food.menu
 
 import android.app.AlertDialog
-import android.app.DatePickerDialog
-import android.app.DatePickerDialog.OnDateSetListener
 import android.app.Dialog
-import android.app.TimePickerDialog
-import android.app.TimePickerDialog.OnTimeSetListener
 import android.os.Bundle
 import android.view.View
-import android.widget.DatePicker
 import android.widget.TextView
-import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
-import com.aes.myhome.DIHandler
 import com.aes.myhome.DateTimePicker
 import com.aes.myhome.R
 import com.aes.myhome.storage.database.entities.Food
 import java.io.Serializable
-import java.util.Calendar
-import java.util.Locale
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class EditFoodDialog : DialogFragment(), DateTimePicker.OnDateTimePickListener {
 
@@ -52,6 +46,7 @@ class EditFoodDialog : DialogFragment(), DateTimePicker.OnDateTimePickListener {
         _food = food
     }
 
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _receiver = arguments?.getSerializable(RECEIVER_KEY) as ICallbackReceiver
@@ -91,8 +86,8 @@ class EditFoodDialog : DialogFragment(), DateTimePicker.OnDateTimePickListener {
 
             builder
                 .setView(foodView)
-                .setMessage("Отредактируйте нужные поля ниже")
-                .setPositiveButton("Сохранить") { _, _ ->
+                .setMessage(getString(R.string.dialog_editFood_message))
+                .setPositiveButton(getString(R.string.action_save)) { _, _ ->
                     try {
                         _food.foodName = foodNameView.text.toString()
                         _food.useByDate = _useByDateView.text.toString()
@@ -110,13 +105,14 @@ class EditFoodDialog : DialogFragment(), DateTimePicker.OnDateTimePickListener {
                     if (_food.foodName.isNotBlank() && _food.useByDate.isNotBlank())
                         _receiver.onPositive(_food)
                 }
-                .setNegativeButton("Отменить") { _, _ -> }
+                .setNegativeButton(getString(R.string.action_cancel)) { _, _ -> }
                 .create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
     override fun onDateTimePicked(day: Int, month: Int, year: Int, hour: Int, minute: Int) {
-        _useByDateView.text =
-            getString(R.string.food_format_date_edit, day, month, year, hour, minute)
+        val date = LocalDateTime.of(year, month, day, hour, minute)
+        val str = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(date)
+        _useByDateView.text = str
     }
 }

@@ -22,30 +22,31 @@ class RecipesViewModel @Inject constructor(
     private val _recipes = MutableLiveData<List<Recipe>>()
     private val _count = MutableLiveData<Int>()
 
+    private val _recipesLoaded = MutableLiveData<Boolean>()
+
     val count: LiveData<Int>
         get() = _count
 
     val recipes: LiveData<List<Recipe>>
         get() = _recipes
 
-    fun loadRecipes(listener: () -> Unit) {
-        if (_recipesInternal.isEmpty()) {
-            viewModelScope.launch {
-                var data: List<Recipe>
+    val recipesLoaded: LiveData<Boolean>
+        get() = _recipesLoaded
 
-                withContext(Dispatchers.IO) {
-                    data = repository.getAll()
-                }
+    init {
+        viewModelScope.launch {
+            var data: List<Recipe>
 
+            withContext(Dispatchers.IO) {
+                data = repository.getAll()
+            }
+
+            withContext(Dispatchers.Main) {
                 _recipesInternal.addAll(data)
                 _recipes.value = _recipesInternal
                 _count.value = data.size
-                listener.invoke()
+                _recipesLoaded.value = true
             }
-        }
-        else {
-            _count.value = _recipesInternal.size
-            listener.invoke()
         }
     }
 

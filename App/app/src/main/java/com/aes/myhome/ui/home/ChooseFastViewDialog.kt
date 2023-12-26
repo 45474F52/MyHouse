@@ -57,7 +57,7 @@ class ChooseFastViewDialog(private val receiver: ICallbackReceiver)
 
             builder
                 .setView(dialogView)
-                .setTitle("Выбор элемента")
+                .setTitle(getString(R.string.dialog_fastView_title))
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }

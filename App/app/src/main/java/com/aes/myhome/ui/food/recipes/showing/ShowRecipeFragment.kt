@@ -23,7 +23,7 @@ class ShowRecipeFragment : Fragment(), IItemClickListener {
     private lateinit var _steps: List<CheckableText>
     private lateinit var _stepsView: TextView
 
-    @Suppress("DEPRECATION") // on getParcelable(string)
+    @Suppress("DEPRECATION")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

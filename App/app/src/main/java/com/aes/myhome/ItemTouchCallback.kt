@@ -11,7 +11,7 @@ class ItemTouchCallback<T>(
     private val list: List<T>,
     private val recycler: RecyclerView,
     private val receiver: Receiver<T>,
-    private val actionName: String = "Undo") : ItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
+    private val actionName: String) : ItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
 
     private var _deletedItem: T? = null
     private var _position = -1

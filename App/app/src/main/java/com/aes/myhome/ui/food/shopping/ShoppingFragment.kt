@@ -9,25 +9,23 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aes.myhome.DIHandler
 import com.aes.myhome.ItemTouchCallback
 import com.aes.myhome.R
 import com.aes.myhome.adapters.ProductsAdapter
 import com.aes.myhome.databinding.FragmentShoppingBinding
 import com.aes.myhome.objects.Product
-import com.aes.myhome.storage.database.repositories.FoodRepository
-import com.aes.myhome.storage.json.JsonDataSerializer
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ShoppingFragment : Fragment(),
     SendProductsDialog.ICallbackReceiver,
     ItemTouchCallback.Receiver<Product> {
-
-    @Inject lateinit var repository: FoodRepository
 
     private lateinit var _viewModel: ShoppingViewModel
     private lateinit var _adapter: ProductsAdapter
@@ -42,12 +40,7 @@ class ShoppingFragment : Fragment(),
     ): View {
 
         _binding = FragmentShoppingBinding.inflate(inflater, container, false)
-
-        _viewModel = ViewModelProvider(this,
-            ShoppingVMFactory(
-                serializer = JsonDataSerializer(requireContext(), JsonDataSerializer.StorageType.INTERNAL),
-                repository = repository
-            ))[ShoppingViewModel::class.java]
+        _viewModel = ViewModelProvider(this)[ShoppingViewModel::class.java]
 
         val finishShoppingBtn: Button = binding.root.findViewById(R.id.finish_shopping_btn)
         val clearListBtn: Button = binding.root.findViewById(R.id.clear_list_btn)
@@ -64,8 +57,9 @@ class ShoppingFragment : Fragment(),
                 ItemTouchHelper.RIGHT,
                 products,
                 recycler,
-                this))
-                .attachToRecyclerView(recycler)
+                this,
+                getString(R.string.action_undo)
+            )).attachToRecyclerView(recycler)
 
             finishShoppingBtn.setOnClickListener {
                 showSendProductsDialog()
@@ -119,18 +113,35 @@ class ShoppingFragment : Fragment(),
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        _snackBar?.dismiss()
     }
 
     override fun onNegative() {
         val tmp = _viewModel.count.value!!
         _viewModel.clearProducts()
         _adapter.notifyItemRangeRemoved(0, tmp)
+        showChangeBudgetNotify()
     }
 
     override fun onPositive() {
         val tmp = _viewModel.count.value!!
         _viewModel.finishShopping()
         _adapter.notifyItemRangeRemoved(0, tmp)
+        showChangeBudgetNotify()
+    }
+
+    private var _snackBar: Snackbar? = null
+    private fun showChangeBudgetNotify() {
+        _snackBar =
+            Snackbar
+            .make(requireView(), getString(R.string.budget_snackbar_action), Snackbar.LENGTH_INDEFINITE)
+            .setAction(getString(R.string.action_toDo)) {
+                Navigation
+                    .findNavController(requireActivity(), R.id.nav_host_fragment_content_main)
+                    .navigate(R.id.nav_food_shopping_navToBudget)
+            }
+
+        _snackBar!!.show()
     }
 
     private fun showSendProductsDialog() {

@@ -8,15 +8,22 @@ import com.aes.myhome.objects.Product
 import com.aes.myhome.storage.database.entities.Food
 import com.aes.myhome.storage.database.repositories.FoodRepository
 import com.aes.myhome.storage.json.JsonDataSerializer
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Date
+import javax.inject.Inject
 
-class ShoppingViewModel(
+@HiltViewModel
+class ShoppingViewModel @Inject constructor(
     private val serializer: JsonDataSerializer,
-    private val repository: FoodRepository): ViewModel()
-{
+    private val repository: FoodRepository
+): ViewModel() {
+
+    private companion object {
+        private const val FILE_NAME = "products.json"
+    }
 
     private val _productsInternal = mutableListOf<Product>()
     private val _products = MutableLiveData<List<Product>>()
@@ -33,17 +40,19 @@ class ShoppingViewModel(
             var data: List<Product>?
 
             withContext(Dispatchers.IO) {
-                data = serializer.deserialize("", "products.json")
+                data = serializer.deserialize("", FILE_NAME)
             }
 
-            if (data == null) {
-                data = emptyList()
+            withContext(Dispatchers.Main) {
+                if (data == null) {
+                    data = emptyList()
+                }
+
+                _productsInternal.addAll(data!!)
+                _products.value = _productsInternal
+
+                _count.value = _productsInternal.size
             }
-
-            _productsInternal.addAll(data!!)
-            _products.value = _productsInternal
-
-            _count.value = _productsInternal.size
         }
     }
 
@@ -97,7 +106,7 @@ class ShoppingViewModel(
 
     private fun saveProducts() {
         viewModelScope.launch(Dispatchers.IO) {
-            serializer.serialize(products.value, "", "products.json")
+            serializer.serialize(products.value, "", FILE_NAME)
         }
     }
 

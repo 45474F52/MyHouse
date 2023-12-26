@@ -1,13 +1,10 @@
 package com.aes.myhome.objects.finances
 
-import android.content.res.Resources.NotFoundException
 import com.aes.myhome.Queue
 import kotlinx.serialization.Serializable
-import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import kotlin.jvm.Throws
 
 @Serializable
 class UserFinances {
@@ -42,12 +39,14 @@ class UserFinances {
 
     fun getBudget(date: LocalDate): Double {
 
+        val newDate = date.plusDays(1L)
+
         val filteredRevenues = revenues.filter {
-            date.plusDays(1L).isAfter(LocalDate.parse(it.date, dateFormatter))
+            newDate.isAfter(LocalDate.parse(it.date, dateFormatter))
         }
 
         val filteredExpenses = expenses.filter {
-            date.plusDays(1L).isAfter(LocalDate.parse(it.date, dateFormatter))
+            newDate.isAfter(LocalDate.parse(it.date, dateFormatter))
         }
 
         val sum1 = filteredRevenues.sumOf { it.money }
