@@ -39,7 +39,8 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="?android:attr/textColorPrimary"
-                android:background="@drawable/rectangle" />
+                android:background="@drawable/rectangle"
+                android:longClickable="true" />
 
             <Button
                 android:id="@+id/home_card_second"
@@ -49,7 +50,8 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="?android:attr/textColorPrimary"
-                android:background="@drawable/rectangle" />
+                android:background="@drawable/rectangle"
+                android:longClickable="true" />
 
             <Button
                 android:id="@+id/home_card_third"
@@ -59,7 +61,8 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="?android:attr/textColorPrimary"
-                android:background="@drawable/rectangle" />
+                android:background="@drawable/rectangle"
+                android:longClickable="true" />
 
             <Button
                 android:id="@+id/home_card_fourth"
@@ -69,7 +72,8 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="?android:attr/textColorPrimary"
-                android:background="@drawable/rectangle" />
+                android:background="@drawable/rectangle"
+                android:longClickable="true" />
 
         </GridLayout>
 

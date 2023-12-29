@@ -1,21 +1,26 @@
 package com.aes.myhome
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ImageSpan
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
-import androidx.preference.SwitchPreferenceCompat
 import com.aes.myhome.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,18 +70,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(_navController, _appBarConfiguration)
         navView.setupWithNavController(_navController)
 
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this).all
-        preferences["sync_theme"]?.let { sync ->
-            if (sync == true) {
-                preferences["attachment_theme"]?.let { attachment ->
-                    if (attachment == true) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    } else {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    }
-                }
-            }
-        }
+        setupAppTheme()
 
         when (intent.action) {
             DISPLAY_FRAGMENT -> {
@@ -86,7 +80,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+
         menuInflater.inflate(R.menu.main, menu)
+
+        menu.findItem(R.id.action_settings)
+            .setIconToTitle(AppCompatResources.getDrawable(this, R.drawable.settings)!!)
+
+        menu.findItem(R.id.action_help)
+            .setIconToTitle(AppCompatResources.getDrawable(this, R.drawable.help)!!)
+
         return true
     }
 
@@ -102,7 +104,8 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_help -> {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/ab0_obus69")))
+                startActivity(
+                    Intent(Intent.ACTION_VIEW, Uri.parse("https://vk.com/ab0_obus69")))
                 true
             }
             else -> {
@@ -110,4 +113,31 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun setupAppTheme() {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this).all
+
+        preferences["sync_theme"]?.let { sync ->
+            if (sync == true) {
+                preferences["attachment_theme"]?.let { value ->
+                    AppCompatDelegate.setDefaultNightMode(
+                        if (value == true) AppCompatDelegate.MODE_NIGHT_YES
+                        else AppCompatDelegate.MODE_NIGHT_NO
+                    )
+                }
+            }
+        }
+    }
+
+    private fun MenuItem.setIconToTitle(icon: Drawable): MenuItem {
+        icon.setBounds(0, 0, icon.intrinsicWidth, icon.intrinsicHeight)
+        val str = SpannableString("   $title")
+        val img = ImageSpan(icon, ImageSpan.ALIGN_BOTTOM)
+        str.setSpan(img, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        this.setTitle(str)
+
+        return this
+    }
+
 }

@@ -20,6 +20,7 @@ class ChooseFastViewDialog(private val receiver: ICallbackReceiver)
 
     interface ICallbackReceiver : Serializable {
         fun onPositive(title: String, index: Int)
+        fun onNegative()
     }
 
     companion object {
@@ -53,7 +54,10 @@ class ChooseFastViewDialog(private val receiver: ICallbackReceiver)
                 dismiss()
             }
 
-            negBtn.setOnClickListener { dismiss() }
+            negBtn.setOnClickListener {
+                receiver.onNegative()
+                dismiss()
+            }
 
             builder
                 .setView(dialogView)

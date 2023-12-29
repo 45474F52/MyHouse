@@ -48,6 +48,12 @@ class HomeViewModel @Inject constructor(private val serializer: JsonDataSerializ
         _cardsMap.value = _cardsMapInternal
     }
 
+    fun update(index: Int, resourceId: Int, title: String) {
+        _cardsMapInternal[index].resourceId = resourceId
+        _cardsMapInternal[index].title = title
+        _cardsMap.value = _cardsMapInternal
+    }
+
     fun clear() {
         _cardsMapInternal.clear()
         _cardsMap.value = emptyList()

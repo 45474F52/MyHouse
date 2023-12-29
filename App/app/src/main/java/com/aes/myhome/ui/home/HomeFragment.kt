@@ -37,6 +37,7 @@ class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
     private lateinit var _clearBtn: Button
 
     private var _clickedCardNumber = 0
+    private var _update = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -123,6 +124,34 @@ class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
             }
         }
 
+        _firstBtn.setOnLongClickListener {
+            _update = true
+            _clickedCardNumber = 1
+            showChooseDialog()
+            true
+        }
+
+        _secondBtn.setOnLongClickListener {
+            _update = true
+            _clickedCardNumber = 2
+            showChooseDialog()
+            true
+        }
+
+        _thirdBtn.setOnLongClickListener {
+            _update = true
+            _clickedCardNumber = 3
+            showChooseDialog()
+            true
+        }
+
+        _fourthBtn.setOnLongClickListener {
+            _update = true
+            _clickedCardNumber = 4
+            showChooseDialog()
+            true
+        }
+
         _clearBtn.setOnClickListener {
             _clickedCardNumber = 0
             _titleText.visibility = View.VISIBLE
@@ -143,6 +172,12 @@ class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
         _binding = null
     }
 
+    override fun onNegative() {
+        if (_update) {
+            _update = false
+        }
+    }
+
     override fun onPositive(title: String, index: Int) {
         _titleText.visibility = View.GONE
         val id = _array.getResourceId(index, -1)
@@ -159,7 +194,13 @@ class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
             _clearBtn.visibility = View.VISIBLE
         }
 
-        _viewModel.add(CardsMap(_clickedCardNumber, id, title))
+        if (_update) {
+            _viewModel.update(_clickedCardNumber - 1, id, title)
+            _update = false
+        } else {
+            _viewModel.add(CardsMap(_clickedCardNumber, id, title))
+        }
+
         _viewModel.save()
     }
 

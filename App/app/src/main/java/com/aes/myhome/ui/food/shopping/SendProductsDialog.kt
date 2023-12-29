@@ -48,6 +48,7 @@ class SendProductsDialog : DialogFragment() {
                 .setNegativeButton(getString(R.string.action_no)) { _, _ ->
                     _receiver.onNegative()
                 }
+                .setNeutralButton(getString(R.string.action_cancel)) { _, _ ->  }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }

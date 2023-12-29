@@ -112,7 +112,6 @@
         <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
             android:id="@+id/statistics_chart"
             android:backgroundTint="?attr/colorOnPrimary"
-            android:background="?attr/colorOnPrimary"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

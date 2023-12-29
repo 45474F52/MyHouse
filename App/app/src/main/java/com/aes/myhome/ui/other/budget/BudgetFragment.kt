@@ -149,6 +149,8 @@ class BudgetFragment : Fragment(), FinancesChangeDialog.ICallbackReceiver {
             }
 
             _viewModel.saveData()
+
+            updateStatisticsChart()
         }
         else {
             _hasError = false
@@ -173,7 +175,6 @@ class BudgetFragment : Fragment(), FinancesChangeDialog.ICallbackReceiver {
         }
 
         _budgetStatus.text = getString(R.string.budget_format_percent, percentChange.absoluteValue)
-        //_budgetStatus.setCompoundDrawablesWithIntrinsicBounds
         _budgetStatus.setCompoundDrawablesWithIntrinsicBounds(
             null,
             null,
@@ -183,15 +184,15 @@ class BudgetFragment : Fragment(), FinancesChangeDialog.ICallbackReceiver {
 
     override fun onNumberFormatExceptionOccurred() {
         _hasError = true
-        createSnackbar(getString(R.string.budget_error_summa))
+        createSnackBar(getString(R.string.budget_error_summa))
     }
 
     override fun onDateNotSet() {
         _hasError = true
-        createSnackbar(getString(R.string.budget_error_date))
+        createSnackBar(getString(R.string.budget_error_date))
     }
 
-    private fun createSnackbar(message: String) {
+    private fun createSnackBar(message: String) {
         Snackbar
             .make(requireContext(), requireView(), message, Snackbar.LENGTH_SHORT)
             .show()
@@ -262,6 +263,7 @@ class BudgetFragment : Fragment(), FinancesChangeDialog.ICallbackReceiver {
 
         val (revenuesList, expensesList) = supplementLists(revenues, expenses, getDatesBetween(startDate, endDate))
 
+        _seriesDates.clear()
         _seriesDates.addAll(revenuesList.map { it.date.toLocalDate() })
 
         val revenuesSeries = AASeriesElement()
@@ -349,9 +351,9 @@ class BudgetFragment : Fragment(), FinancesChangeDialog.ICallbackReceiver {
     }
 
     private fun LocalDate.withinCurrentWeek(): Boolean {
-        val currentWeek = LocalDate.now().get(WeekFields.ISO.weekOfYear())
-        val dateWeek = this.get(WeekFields.ISO.weekOfYear())
-        return currentWeek == dateWeek
+        val currentWeek = LocalDate.now().get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear())
+        val weekOfYear = this.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear())
+        return currentWeek == weekOfYear
     }
 
     private fun LocalDate.withinCurrentMonth(): Boolean {

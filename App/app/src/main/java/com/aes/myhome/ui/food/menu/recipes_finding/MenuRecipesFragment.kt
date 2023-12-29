@@ -32,6 +32,8 @@ class MenuRecipesFragment : Fragment() {
         _viewModel = ViewModelProvider(this)[MenuRecipesViewModel::class.java]
 
         val pbContainer = binding.recipesFindingPbContainer
+        val image = binding.backgroundImage
+        image.visibility = View.GONE
 
         val foundRecipesContainer = binding.foundRecipesContainer
         val recommendedRecipesContainer = binding.recommendedRecipesContainer
@@ -57,6 +59,7 @@ class MenuRecipesFragment : Fragment() {
 
         _viewModel.loadData {
             pbContainer.visibility = View.GONE
+            image.visibility = View.VISIBLE
         }
 
         return binding.root

@@ -4,16 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aes.myhome.DIHandler
 import com.aes.myhome.ItemTouchCallback
 import com.aes.myhome.R
 import com.aes.myhome.adapters.ProductsAdapter
@@ -25,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ShoppingFragment : Fragment(),
     SendProductsDialog.ICallbackReceiver,
+    BottomSheetCreateProduct.ICallbackReceiver,
     ItemTouchCallback.Receiver<Product> {
 
     private lateinit var _viewModel: ShoppingViewModel
@@ -42,13 +39,13 @@ class ShoppingFragment : Fragment(),
         _binding = FragmentShoppingBinding.inflate(inflater, container, false)
         _viewModel = ViewModelProvider(this)[ShoppingViewModel::class.java]
 
-        val finishShoppingBtn: Button = binding.root.findViewById(R.id.finish_shopping_btn)
-        val clearListBtn: Button = binding.root.findViewById(R.id.clear_list_btn)
+        val finishShoppingBtn = binding.finishShoppingBtn
+        val backgroundImage = binding.backgroundImage
 
         _viewModel.products.observe(viewLifecycleOwner) { products ->
             _adapter = ProductsAdapter(products)
 
-            val recycler: RecyclerView = binding.root.findViewById(R.id.products_list)
+            val recycler: RecyclerView = binding.productsList
             recycler.adapter = _adapter
             recycler.layoutManager = LinearLayoutManager(context)
 
@@ -64,47 +61,18 @@ class ShoppingFragment : Fragment(),
             finishShoppingBtn.setOnClickListener {
                 showSendProductsDialog()
             }
-
-            clearListBtn.setOnClickListener {
-                val tmp = products.size
-                _viewModel.clearProducts()
-                _adapter.notifyItemRangeRemoved(0, tmp)
-            }
         }
 
-        val toolsContainer: LinearLayout = binding.root.findViewById(R.id.tools_container)
-        val bottomButtons: LinearLayout = binding.root.findViewById(R.id.bottom_shopping_buttons)
-
-        val nameTextEditor: EditText = binding.root.findViewById(R.id.product_name_edit)
-        val descriptionTextEditor: EditText = binding.root.findViewById(R.id.product_description_edit)
-
-        val collapseBtn: Button = binding.root.findViewById(R.id.collapse_tools_btn)
-        val addProductBtn: Button = binding.root.findViewById(R.id.add_product_btn)
+        val collapseBtn = binding.addProductRequestBtn
 
         collapseBtn.setOnClickListener {
-            toolsContainer.visibility = View.VISIBLE
-            collapseBtn.visibility = View.GONE
-            nameTextEditor.requestFocus()
-        }
-
-        addProductBtn.setOnClickListener {
-            toolsContainer.visibility = View.GONE
-            collapseBtn.visibility = View.VISIBLE
-
-            val name = nameTextEditor.text.toString()
-            val description = descriptionTextEditor.text.toString()
-
-            if (name.isNotBlank()) {
-                _viewModel.addProduct(name, description)
-                _adapter.notifyItemInserted(_viewModel.count.value!!.minus(1))
-            }
-
-            nameTextEditor.text.clear()
-            descriptionTextEditor.text.clear()
+            val bottomSheet = BottomSheetCreateProduct(this)
+            bottomSheet.show(requireActivity().supportFragmentManager, BottomSheetCreateProduct.TAG)
         }
 
         _viewModel.count.observe(viewLifecycleOwner) {
-            bottomButtons.visibility = if (it == 0) View.GONE else View.VISIBLE
+            finishShoppingBtn.visibility = if (it == 0) View.GONE else View.VISIBLE
+            backgroundImage.visibility = if (it == 0) View.VISIBLE else View.GONE
         }
 
         return binding.root
@@ -162,5 +130,10 @@ class ShoppingFragment : Fragment(),
 
     override fun onDismissed(item: Product) {
         _viewModel.confirmDeletion()
+    }
+
+    override fun onPostData(name: String, description: String) {
+        _viewModel.addProduct(name, description)
+        _adapter.notifyItemInserted(_viewModel.count.value!!.minus(1))
     }
 }

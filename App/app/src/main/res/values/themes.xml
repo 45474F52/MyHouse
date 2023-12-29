@@ -22,4 +22,15 @@
     <style name="Theme.MyHome.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.MyHome.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+
+    <style name="BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/bottomSheetStyleWrapper</item>
+    </style>
+
+    <style name="bottomSheetStyleWrapper" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="android:backgroundTint">@android:color/transparent</item>
+    </style>
+
 </resources>

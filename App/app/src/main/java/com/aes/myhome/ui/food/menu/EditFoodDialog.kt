@@ -111,7 +111,7 @@ class EditFoodDialog : DialogFragment(), DateTimePicker.OnDateTimePickListener {
     }
 
     override fun onDateTimePicked(day: Int, month: Int, year: Int, hour: Int, minute: Int) {
-        val date = LocalDateTime.of(year, month, day, hour, minute)
+        val date = LocalDateTime.of(year, month + 1, day, hour, minute)
         val str = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(date)
         _useByDateView.text = str
     }

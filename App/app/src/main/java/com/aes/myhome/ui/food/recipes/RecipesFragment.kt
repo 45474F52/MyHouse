@@ -5,21 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.aes.myhome.IItemClickListener
 import com.aes.myhome.ItemTouchCallback
 import com.aes.myhome.R
 import com.aes.myhome.adapters.RecipesAdapter
 import com.aes.myhome.databinding.FragmentRecipesBinding
 import com.aes.myhome.storage.database.entities.Recipe
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,7 +50,7 @@ class RecipesFragment : Fragment(),
 
             _adapter = RecipesAdapter(_filteredRecipes, this)
 
-            val recycler = binding.root.findViewById<RecyclerView>(R.id.recipes_list)
+            val recycler = binding.recipesList
             recycler.adapter = _adapter
             recycler.layoutManager = LinearLayoutManager(context)
 
@@ -69,12 +66,14 @@ class RecipesFragment : Fragment(),
             ).attachToRecyclerView(recycler)
         }
 
-        val addRecipeBtn: FloatingActionButton = binding.root.findViewById(R.id.add_recipe_btn)
+        val image = binding.backgroundImage
+
+        val addRecipeBtn = binding.addRecipeBtn
         addRecipeBtn.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.nav_food_recipes_navToCreation)
         }
 
-        val clearRecipesBtn: ImageButton = binding.root.findViewById(R.id.clear_recipe_list_btn)
+        val clearRecipesBtn = binding.clearRecipeListBtn
         clearRecipesBtn.setOnClickListener {
             val tmp = _viewModel.count.value!!
             _viewModel.clear()
@@ -82,7 +81,7 @@ class RecipesFragment : Fragment(),
             _adapter.notifyItemRangeRemoved(0, tmp)
         }
 
-        val search: SearchView = binding.root.findViewById(R.id.search_recipes_view)
+        val search = binding.searchRecipesView
         search.setOnQueryTextListener(this)
         search.setOnCloseListener {
             _filteredRecipes.clear()
@@ -94,6 +93,7 @@ class RecipesFragment : Fragment(),
 
         _viewModel.count.observe(viewLifecycleOwner) {
             clearRecipesBtn.visibility = if (it == 0) View.GONE else View.VISIBLE
+            image.visibility = if (it == 0) View.VISIBLE else View.GONE
         }
 
         return binding.root

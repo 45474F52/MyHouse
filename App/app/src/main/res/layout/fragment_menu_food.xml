@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,8 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.food.menu.showing_food.MenuFoodFragment">
 
+    <ImageView
+        android:visibility="visible"
+        android:id="@+id/background_image"
+        android:layout_weight="1"
+        android:importantForAccessibility="no"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/fridge"
+        android:alpha=".7" />
+
     <LinearLayout
-        android:id="@+id/food_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -17,158 +26,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/collapse_food_tools_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minWidth="48dp"
-            android:minHeight="48dp"
-            android:layout_marginHorizontal="10dp"
-            android:text="@string/action_add"
-            android:textAllCaps="false" />
-
-        <LinearLayout
-            android:id="@+id/food_tools_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
-
-            <EditText
-                android:id="@+id/food_name_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:textSize="14sp"
-                android:hint="@string/hint_item_name"
-                android:autofillHints="name"
-                android:layout_marginHorizontal="10dp"
-                android:inputType="textCapSentences" />
-
-            <TextView
-                android:id="@+id/food_useByDate_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:hint="@string/hint_select_useByDate"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginVertical="10dp" />
-
-            <EditText
-                android:id="@+id/food_quantity_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:textSize="14sp"
-                android:maxLines="3"
-                android:hint="@string/hint_quantity"
-                android:autofillHints="name"
-                android:layout_marginHorizontal="10dp"
-                android:inputType="number" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="?android:attr/listDivider"
-                android:layout_marginVertical="10dp" />
-
-            <EditText
-                android:id="@+id/food_protein_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:textSize="14sp"
-                android:maxLines="3"
-                android:hint="@string/hint_enter_protein"
-                android:autofillHints="name"
-                android:layout_marginHorizontal="10dp"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/food_fat_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:textSize="14sp"
-                android:maxLines="3"
-                android:hint="@string/hint_enter_fat"
-                android:autofillHints="name"
-                android:layout_marginHorizontal="10dp"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/food_carbs_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:textSize="14sp"
-                android:maxLines="3"
-                android:hint="@string/hint_enter_carbs"
-                android:autofillHints="name"
-                android:layout_marginHorizontal="10dp"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/food_calories_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:textSize="14sp"
-                android:maxLines="3"
-                android:hint="@string/hint_enter_calories"
-                android:autofillHints="name"
-                android:layout_marginHorizontal="10dp"
-                android:inputType="numberDecimal" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="?android:attr/listDivider"
-                android:layout_marginVertical="10dp" />
-
-            <EditText
-                android:id="@+id/food_description_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:textSize="14sp"
-                android:maxLines="3"
-                android:hint="@string/hint_item_description"
-                android:autofillHints="name"
-                android:layout_marginHorizontal="10dp"
-                android:inputType="textMultiLine|textCapSentences" />
-
-            <Button
-                android:id="@+id/add_food_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="50dp"
-                android:text="@string/action_addToList"
-                android:textAllCaps="false"
-                android:layout_gravity="center" />
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/food_list"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="20dp">
+            android:layout_weight="0.6">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_food_request_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="end|bottom"
+                android:layout_marginStart="@dimen/fab_margin"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:contentDescription="create food"
+                android:src="@drawable/add" />
 
-        <Button
-            android:id="@+id/clear_food_list_btn"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/food_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </RelativeLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:layout_marginHorizontal="50dp"
-            android:text="@string/action_clear"
-            android:textSize="18sp"
-            android:textAllCaps="false" />
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/clear_food_list_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:layout_marginHorizontal="50dp"
+                android:text="@string/action_clear"
+                android:textSize="18sp"
+                android:textAllCaps="false" />
+        </LinearLayout>
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
