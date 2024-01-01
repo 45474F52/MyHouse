@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.Spinner
 import androidx.fragment.app.DialogFragment
 import com.aes.myhome.R
@@ -28,14 +27,11 @@ class ChooseFastViewDialog(private val receiver: ICallbackReceiver)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return activity?.let { it ->
+        return activity?.let {
             val builder = AlertDialog.Builder(it)
 
             val inflater = requireActivity().layoutInflater
             val dialogView: View = inflater.inflate(R.layout.dialog_choose_fast_view, null)
-
-            val posBtn: Button = dialogView.findViewById(R.id.dialog_positive_btn)
-            val negBtn: Button = dialogView.findViewById(R.id.dialog_negative_btn)
 
             val spinner: Spinner = dialogView.findViewById(R.id.dialog_choose_spinner)
             spinner.onItemSelectedListener = this
@@ -49,19 +45,15 @@ class ChooseFastViewDialog(private val receiver: ICallbackReceiver)
                 spinner.adapter = adapter
             }
 
-            posBtn.setOnClickListener {
-                receiver.onPositive(_itemTitle, _itemIndex)
-                dismiss()
-            }
-
-            negBtn.setOnClickListener {
-                receiver.onNegative()
-                dismiss()
-            }
-
             builder
                 .setView(dialogView)
                 .setTitle(getString(R.string.dialog_fastView_title))
+                .setPositiveButton(getString(R.string.action_save)) { _, _ ->
+                    receiver.onPositive(_itemTitle, _itemIndex)
+                }
+                .setNegativeButton(getString(R.string.action_cancel)) { _, _ ->
+                    receiver.onNegative()
+                }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }

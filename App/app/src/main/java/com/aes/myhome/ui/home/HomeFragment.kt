@@ -13,9 +13,7 @@ import androidx.navigation.Navigation
 import com.aes.myhome.R
 import com.aes.myhome.databinding.FragmentHomeBinding
 import com.aes.myhome.objects.CardsMap
-import com.aes.myhome.storage.json.JsonDataSerializer
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.serialization.Serializable
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
@@ -125,29 +123,29 @@ class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
         }
 
         _firstBtn.setOnLongClickListener {
-            _update = true
             _clickedCardNumber = 1
+            _update = _viewModel.cardsMap.value!!.size >= _clickedCardNumber
             showChooseDialog()
             true
         }
 
         _secondBtn.setOnLongClickListener {
-            _update = true
             _clickedCardNumber = 2
+            _update = _viewModel.cardsMap.value!!.size >= _clickedCardNumber
             showChooseDialog()
             true
         }
 
         _thirdBtn.setOnLongClickListener {
-            _update = true
             _clickedCardNumber = 3
+            _update = _viewModel.cardsMap.value!!.size >= _clickedCardNumber
             showChooseDialog()
             true
         }
 
         _fourthBtn.setOnLongClickListener {
-            _update = true
             _clickedCardNumber = 4
+            _update = _viewModel.cardsMap.value!!.size >= _clickedCardNumber
             showChooseDialog()
             true
         }
@@ -195,8 +193,8 @@ class HomeFragment : Fragment(), ChooseFastViewDialog.ICallbackReceiver {
         }
 
         if (_update) {
-            _viewModel.update(_clickedCardNumber - 1, id, title)
             _update = false
+            _viewModel.update(_clickedCardNumber - 1, id, title)
         } else {
             _viewModel.add(CardsMap(_clickedCardNumber, id, title))
         }

@@ -51,7 +51,7 @@
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="10dp"
                 android:src="@drawable/delete"
-                android:contentDescription="Remove Recipes"
+                android:contentDescription="@string/cnt_descr_delete_recipes"
                 android:backgroundTint="@android:color/transparent" />
         </LinearLayout>
 
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:src="@drawable/add"
-            android:contentDescription="Add Recipe"
+            android:contentDescription="@string/cnt_descr_create_recipe"
             android:layout_margin="16dp" />
 
     </LinearLayout>

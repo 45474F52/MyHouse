@@ -1,40 +1,41 @@
 <?xml version ="1.0" encoding="utf-8"?>
-<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <shortcut
         android:shortcutId="sc_shopping"
         android:enabled="true"
-        android:icon="@drawable/shopping_bag_svgrepo_com"
+        android:icon="@mipmap/bag_in_circle"
         android:shortcutShortLabel="@string/sc_sh_shopping"
         android:shortcutLongLabel="@string/sc_lg_shopping"
-        android:shortcutDisabledMessage="@string/sc_dm_shopping"> <!-- Displayed when android:enabled = false -->
+        android:shortcutDisabledMessage="@string/sc_dm_shopping">
 
         <intent
-            android:action="com.aes.myhome.intent_action.display_fragment"
+            android:action="action.intent.DISPLAY_FRAGMENT"
             android:data="App://food.shopping"
             android:targetPackage="com.aes.myhome"
             android:targetClass="com.aes.myhome.MainActivity" />
 
-<!--        <categories android:name="android.shortcut.conversation" />-->
-<!--        <capability-binding android:key="action.intent.CREATE_MESSAGE" />-->
-
     </shortcut>
 
+    <capability
+        android:name="actions.intent.DISPLAY_FRAGMENT"
+        app:queryPatterns="@array/shortcut_pattern">
+
+        <intent
+            android:action="action.intent.DISPLAY_FRAGMENT"
+            android:targetPackage="com.aes.myhome"
+            android:targetClass="com.aes.myhome.MainActivity">
+
+            <parameter
+                android:required="true"
+                android:name="fragment"
+                android:key="fragment"
+                android:mimeType="https://schema.org/Text" />
+        </intent>
+    </capability>
+
 </shortcuts>
-
-
-    <!-- Add shortcuts that launch your app to a specific screen or task. -->
-    <!-- Learn more at https://developer.android.com/guide/topics/ui/shortcuts/creating-shortcuts -->
-    <!-- <shortcut android:shortcutId="SHORTCUT_ID" -->
-    <!--     android:enabled="true" -->
-    <!--     android:shortcutShortLabel="SHORTCUT_SHORT_LABEL" -->
-    <!--     android:shortcutLongLabel="SHORTCUT_LONG_LABEL" -->
-    <!--     android:shortcutDisabledMessage="SHORTCUT_DISABLED_MESSAGE"> -->
-    <!--     <intent -->
-    <!--         android:action="android.intent.action.VIEW" -->
-    <!--         android:targetClass="REPLACE_IT_WITH_FULL_QUALIFIED_CLASS" -->
-    <!--         android:targetPackage="REPLACE_IT_WITH_TARGET_PACKAGE" /> -->
-    <!-- </shortcut> -->
 
     <!-- Integrate with Google Assistant App Actions for launching your app with various voice commands. -->
     <!-- Learn more at: https://developers.google.com/assistant/app/overview -->

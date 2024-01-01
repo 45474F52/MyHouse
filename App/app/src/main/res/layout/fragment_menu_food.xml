@@ -42,7 +42,7 @@
                 android:layout_marginTop="@dimen/fab_margin"
                 android:layout_marginEnd="@dimen/fab_margin"
                 android:layout_marginBottom="@dimen/fab_margin"
-                android:contentDescription="create food"
+                android:contentDescription="@string/cnt_descr_create_food"
                 android:src="@drawable/add" />
 
             <androidx.recyclerview.widget.RecyclerView

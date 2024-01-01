@@ -35,4 +35,8 @@ object DIProvider {
     @Singleton
     @Provides
     fun provideRecipeDAO(db: AppDatabase) = db.recipeDAO()
+
+    @Singleton
+    @Provides
+    fun provideScheduleEventDAO(db: AppDatabase) = db.scheduleEventDAO()
 }

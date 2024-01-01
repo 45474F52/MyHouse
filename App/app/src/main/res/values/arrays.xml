@@ -1,4 +1,9 @@
 <resources>
+    <!-- Shortcut Patterns -->
+    <string-array name="shortcut_pattern">
+        <item>open $fragment</item>
+    </string-array>
+
     <!-- Reply Preference -->
     <string-array name="reply_entries">
         <item>Reply</item>
@@ -40,4 +45,29 @@
         <item>@id/action_fast_nav_to_closet</item>
         <item>@id/action_fast_nav_to_fun</item>
     </array>
+
+    <!-- Event Categories -->
+    <string-array name="event_categories_entries">
+        <item>@string/event_category_note</item>
+        <item>@string/event_category_meeting</item>
+        <item>@string/event_category_tasks</item>
+        <item>@string/event_category_birthday</item>
+        <item>@string/event_category_holiday</item>
+    </string-array>
+
+    <string-array name="event_categories_values">
+        <item>note</item>
+        <item>meeting</item>
+        <item>tasks</item>
+        <item>birthday</item>
+        <item>holiday</item>
+    </string-array>
+
+    <integer-array name="event_categories_colors">
+        <item>0x1AE5FF</item>
+        <item>0x1AE5FF</item>
+        <item>0x1AE5FF</item>
+        <item>0x1AE5FF</item>
+        <item>0x1AE5FF</item>
+    </integer-array>
 </resources>

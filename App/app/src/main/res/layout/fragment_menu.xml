@@ -21,21 +21,22 @@
         <Button
             android:id="@+id/show_food_list_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Список продуктов"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/menuF_products_list"
             android:textAllCaps="false"
-            android:textSize="22sp"
-            android:layout_marginHorizontal="30dp" />
+            android:textSize="32sp"
+            android:layout_margin="30dp" />
 
         <Button
             android:id="@+id/find_recipes_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Доступные рецепты"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/menuF_recipes_list"
             android:textAllCaps="false"
-            android:textSize="22sp"
-            android:layout_marginVertical="10dp"
-            android:layout_marginHorizontal="30dp" />
+            android:textSize="32sp"
+            android:layout_margin="30dp" />
 
     </LinearLayout>
 

@@ -1,32 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">My Home</string>
     <string name="app_description">Description</string>
-    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
-    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
-
-    <!-- App Menu -->
     <string name="action_settings">Settings</string>
     <string name="action_help">Help</string>
-
-    <!-- Nav Header -->
-    <string name="nav_header_title" translatable="false">MyHome</string>
-    <string name="nav_header_subtitle" translatable="false">danchin276@mail.ru</string>
-
-    <!-- Preference Titles -->
     <string name="user_preferences_title">Your preferences</string>
-    <string name="messages_header" translatable="false">Messages</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title" translatable="false">Your signature</string>
-    <string name="reply_title" translatable="false">Default reply action</string>
-
-    <!-- Sync Preferences -->
     <string name="sync_theme_title">Don\'t use system theme</string>
     <string name="sync_attachment_theme_title">Choose theme</string>
     <string name="sync_attachment_theme_summary_off">Use light theme</string>
     <string name="sync_attachment_theme_summary_on">Use dark theme</string>
-
-    <!-- Dialogs -->
     <string name="dialog_finance_title_revenue">What are your incomes?</string>
     <string name="dialog_finance_title_expense">What are your expenses?</string>
     <string name="dialog_finance_message_revenue">Write about how much income you had and choose a date</string>
@@ -36,18 +18,11 @@
     <string name="dialog_sendProducts_message">This will allow you to track their expiration date, as well as create recipes with them</string>
     <string name="dialog_editFood_message">Edit the fields below</string>
     <string name="dialog_saveRecipe_title">Saving a recipe</string>
-
-    <!-- Tooltips -->
     <string name="tooltip_budget_percent">Displays the change in the current budget compared to yesterday\'s</string>
-
-    <!-- Errors -->
     <string name="error_empty_name">The name can\'t be empty</string>
     <string name="error_empty_useByDate">The use-by date cannot be empty</string>
     <string name="error_numberFormat">The number is not written correctly</string>
     <string name="error_timeFormat">Cooking time cannot be negative</string>
-
-    <!-- Menu -->
-    <string name="menu_home" translatable="false">Home</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_food">Food</string>
     <string name="menu_tasks">Tasks</string>
@@ -62,28 +37,17 @@
     <string name="menu_other_budget">Budget</string>
     <string name="menu_other_closet">Closet</string>
     <string name="menu_other_fun">Fun</string>
-
-    <!-- Food Item -->
     <string name="food_format_useByDate">till %1$s</string>
     <string name="food_format_protein">Per 100 g. — %1$.1f g. protein</string>
     <string name="food_format_fat">Per 100 g. — %1$.1f g. fat</string>
     <string name="food_format_carbs">Per 100 g. — %1$.1f g. carbs</string>
     <string name="food_format_calories">%1$.1f kcal.</string>
     <string name="food_format_quantity">Quantity: %1$d</string>
-
-    <!-- Recipe Showing -->
     <string name="recipe_format_time">%1$.1f min.</string>
-    <string name="recipe_format_steps" translatable="false">%1$d/%2$d</string>
     <string name="recipe_steps">Steps</string>
     <string name="recipe_time">Time</string>
-
-    <!-- Menu Fragment -->
     <string name="menuF_products_list">Product list</string>
     <string name="menuF_recipes_list">Available recipes</string>
-
-    <!-- Actions -->
-    <string name="action_plus_icon" translatable="false">+</string>
-    <string name="action_minus_icon" translatable="false">–</string>
     <string name="action_close">Close</string>
     <string name="action_save">Save</string>
     <string name="action_add">Add</string>
@@ -99,7 +63,6 @@
     <string name="action_no">No</string>
     <string name="action_undo">Undo</string>
     <string name="action_toDo">To do</string>
-    <!-- Hints -->
     <string name="hint_item_name">Name:</string>
     <string name="hint_select_useByDate">Select use-by date</string>
     <string name="hint_quantity">Quantity:</string>
@@ -115,9 +78,6 @@
     <string name="hint_finance_summa">Sum…</string>
     <string name="hint_select_date">Select date</string>
     <string name="hint_add">Add…</string>
-    <string name="hint_about_event">About event:</string>
-    <string name="hint_select_category">Select category</string>
-    <!-- Content Description -->
     <string name="cnt_descr_nav_header">Navigation header</string>
     <string name="cnt_descr_mark_recipe_step">Mark recipe step</string>
     <string name="menu_food_recipes_creation">Creating a recipe</string>
@@ -128,21 +88,12 @@
     <string name="cnt_descr_create_food">Create a product</string>
     <string name="cnt_descr_delete_recipes">Delete recipes</string>
     <string name="cnt_descr_create_recipe">Create a recipe</string>
-    <string name="cnt_descr_add_event">Add event</string>
-    <string name="cnt_descr_events_searching">Events searching</string>
-    <string name="cnt_descr_go_to_current_date">Go to current date</string>
-    <!-- Titles -->
     <string name="home_title">Select elements for quick navigation</string>
     <string name="title_found_recipes">Can be cooked</string>
     <string name="title_recommended_recipes">Recommend</string>
-
-    <!-- Shortcuts Labels -->
     <string name="sc_sh_shopping">Shopping</string>
     <string name="sc_lg_shopping">Create shopping list</string>
     <string name="sc_dm_shopping">Shopping a disabled</string>
-
-    <!-- Budget -->
-    <string name="budget_format_percent" translatable="false">%1$.1f%%</string>
     <string name="budget_error_summa">No changes. The amount was entered incorrectly</string>
     <string name="budget_error_date">No changes. No date has been chosen</string>
     <string name="budget_statistics_title">Statistics</string>
@@ -151,16 +102,11 @@
     <string name="budget_category_revenues">Incomes</string>
     <string name="budget_category_expenses">Expenses</string>
     <string name="budget_snackbar_action">Make changes to the budget after the purchase</string>
-
-    <!-- Schedule Event -->
+    <string name="cnt_descr_add_event">Add event</string>
+    <string name="cnt_descr_events_searching">Events searching</string>
+    <string name="cnt_descr_go_to_current_date">Go to current date</string>
+    <string name="hint_about_event">About event:</string>
+    <string name="hint_select_category">Select category</string>
     <string name="schedule_event_enable_notification">Enable notification</string>
     <string name="event_notification_dateTime">at %1$s</string>
-
-    <!-- Event Categories -->
-    <string name="event_category_note">Note</string>
-    <string name="event_category_meeting">Meeting</string>
-    <string name="event_category_tasks">Tasks</string>
-    <string name="event_category_birthday">Birthday</string>
-    <string name="event_category_holiday">Holiday</string>
-
 </resources>

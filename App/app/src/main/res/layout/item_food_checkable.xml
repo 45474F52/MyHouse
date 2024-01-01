@@ -29,8 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:text="Milk" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 

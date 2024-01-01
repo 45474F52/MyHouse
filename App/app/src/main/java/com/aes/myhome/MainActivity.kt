@@ -12,10 +12,10 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.iterator
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -29,11 +29,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     companion object Intents {
-        const val DISPLAY_FRAGMENT = "com.aes.myhome.intent_action.display_fragment"
+        const val DISPLAY_FRAGMENT = "action.intent.DISPLAY_FRAGMENT"
     }
 
     private lateinit var _appBarConfiguration: AppBarConfiguration
     private lateinit var _navController: NavController
+    private lateinit var _menu: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,11 +73,7 @@ class MainActivity : AppCompatActivity() {
 
         setupAppTheme()
 
-        when (intent.action) {
-            DISPLAY_FRAGMENT -> {
-                _navController.navigate(intent.data!!)
-            }
-        }
+        intent.provideActions()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -89,6 +86,8 @@ class MainActivity : AppCompatActivity() {
         menu.findItem(R.id.action_help)
             .setIconToTitle(AppCompatResources.getDrawable(this, R.drawable.help)!!)
 
+        _menu = menu
+
         return true
     }
 
@@ -97,10 +96,20 @@ class MainActivity : AppCompatActivity() {
         return _navController.navigateUp(_appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    override fun onOptionsMenuClosed(menu: Menu?) {
+        super.onOptionsMenuClosed(menu)
+        if (menu != null) {
+            for (item in menu) {
+                item.setEnabled(true)
+            }
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
                 _navController.navigate(R.id.action_open_settings)
+                item.setEnabled(false)
                 true
             }
             R.id.action_help -> {
@@ -109,6 +118,9 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             else -> {
+                if (_navController.currentDestination?.id == R.id.nav_settings) {
+                    _menu.findItem(R.id.action_settings)?.setEnabled(true)
+                }
                 super.onOptionsItemSelected(item)
             }
         }
@@ -140,4 +152,30 @@ class MainActivity : AppCompatActivity() {
         return this
     }
 
+    private fun Intent.provideActions() {
+        when (this.action) {
+            DISPLAY_FRAGMENT -> {
+                if (this.data != null) {
+                    _navController.navigate(this.data!!)
+                } else if (this.extras != null) {
+                    val fragmentsNames = resources.getStringArray(R.array.fast_views_entries)
+
+                    val fragmentName =
+                        this.extras!!.getString("fragment", "").lowercase()
+
+                    val index = fragmentsNames.indexOfFirst { it.lowercase() == fragmentName }
+
+                    if (index != -1) {
+                        val fragmentsId = resources.obtainTypedArray(R.array.fast_views_values)
+                        val id = fragmentsId.getResourceId(index, -1)
+                        fragmentsId.recycle()
+
+                        if (id != -1) {
+                            _navController.navigate(id)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
